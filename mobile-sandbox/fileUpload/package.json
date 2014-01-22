@@ -1,0 +1,14 @@
+{
+  "name": "fileupload.mobile",
+  "subdomain": "fileupload.mobile",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "bundleDependencies": [
+    "formidable"
+  ],
+  "version": "0.0.1-4",
+  "engines": {
+    "node": "0.10.x"
+  }
+}

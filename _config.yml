@@ -23,3 +23,8 @@ markdown: kramdown
 highlighter: pygments
 safe: true
 lsi: true
+
+# Asciidoctor - github page가 기본적으로 지원을 하지 않고 복잡하게 CI 등을 돌려햐해서 포기.. jekyll 기본 템플릿을 사용하자..
+# 참조: https://github.com/asciidoctor/jekyll-asciidoc
+#asciidoc: {}
+#asciidoctor: {}

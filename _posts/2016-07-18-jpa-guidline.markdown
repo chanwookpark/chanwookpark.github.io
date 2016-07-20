@@ -29,8 +29,10 @@ DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사�
 ### 언제 사용하는가?
 - 엔티티가 동일한지 직접 비교 하거나 (if)
 - Set에 저장할 때 (Set은 중복을 허용하지 않기 때문에)
+ - SET에 직접 엔티티를 저장하거나
+ - 또 다른 엔티티의 SET 프로퍼티로 등록되어 있는 경우
 - 세션의 1차, 2차 캐시에 저장하거나
-- 세션의 오퍼레이션을 수행할 때 (예를 들어, detach() 등) -> 요즘 JPA에서의 상황 확인 필요...
+- 세션의 오퍼레이션을 수행할 때 (예를 들어, detach() 등)
 - find()한 객체와 Query/Criteria로 로딩한 객체의 동일성 확인할 때
 
 ### 어떻게 구현해야 하나?
@@ -67,6 +69,75 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
         <artifactId>lombok</artifactId>
         <version>${version.lombok}</version>
     </dependency>
+
+# Query
+JPA에서 데이터를 조회할 때는 다음 순서로 접근하자.
+- 첫 번째 단계
+ - findOne(), findAll() 등 Repository의 기본 함수로 엔티티를 조회 후 객체 Graph를 통해 데이터 처리
+ - Repository 쿼리 메서드를 정의해 별도 조회 로직을 작성하지 않고 데이터 처리 (findByUserName(userName) 이런식으로..)
+  - 복잡한 조건식을 메서드에 모두 적을 수 없다. 당연히. 그렇게 해서도 안 된다
+  - 기본적인 조건으로 엔티티를 일단 로딩하고 나서 로직을 수행해도 되는 경우에 적절함
+- 두 번째 단계
+ - QueryDSL으로 구현
+  - 쿼리 클래스를 사용해 조회 조건을 구현
+ - JPAQL을 사용해 구현
+  - Spring Data의 @Query 를 사용해 리파지토리 인터페이스에 선언
+- 세 번째 단계
+ - Native SQL을 실행 ..
+
+## Query 메서드
+따로 설정을 필요 없고 리파지토리 인터페이스에 엔티티의 속성명을 기준으로 쿼리 메서드를 추가하면 된다.
+
+http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#jpa.query-methods
+
+## QueryDSL
+### 환경설정
+POM에 의존성과 빌드 플러그인을 추가하면 된다.
+
+https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/
+
+### Repository 인터페이스 추가
+Repository 인터페이스에 QueryDslPredicateExecutor<?> 인터페이스를 상속하도록 한다.
+
+http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#core.extensions.querydsl
+
+### 사용하기
+Q로 시작하는 쿼리 클래스를 사용해서 쿼리문을 생성해서 리파지토리에 전달한다.
+
+    final QMember member = QMember.member;
+
+    // =
+    final BooleanExpression eq = member.memberName.eq("아이언맨");
+    List<Member> list = (List<Member>) mr.findAll(eq);
+
+    // like
+    final BooleanExpression like = member.memberNumber.like("1%");
+    list = (List<Member>) mr.findAll(like);
+
+    // and
+    final BooleanExpression and = member.memberType.eq(MemberType.P)
+            .and(member.memberStatus.eq(MemberStatus.A));
+    list = (List<Member>) mr.findAll(and);
+
+TODO 쿼리문을 만드는 로직의 위치에 대한 고민 : 서비스냐 도메인이냐
+
+## JPQL
+Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터페이스에 JPQL을 정의해 사용한다.
+
+아래는 예제코드다.
+
+    public interface SkuJpaRepository extends JpaRepository<Sku, Long> {
+
+        @Query("SELECT s FROM commerce.entity.Sku s WHERE s.product.productId = ?1 and s.stock > 0")
+        List<Sku> findByStockedProduct(String productId);
+
+        @Query("SELECT s FROM commerce.entity.Sku s WHERE s.displayName like ?1%")
+        List<Sku> findByDisplayNameLike(String displayName);
+    }
+
+## Native SQL
+Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터페이스에 Native SQL을 직접 작성할 수 있다.
+단, nativeQuery = true로 선언해줘야 한다.
 
 # Spring과 JPA 함께 사용하기
 ## 기본 환경설정
@@ -107,6 +178,30 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
 기본 설정으로 부족할 경우에는 JavaConfig 클래스를 만들어 JPA 관련 설정을 정리하자
 
 자세한 내용은 [스프링 데이터 JPA 가이드](http://docs.spring.io/spring-data/jpa/docs/1.9.4.RELEASE/reference/html/#jpa.java-config) 참조.
+
+## Naming strategy
+Spring Boot 이전 버전(확인 필요) + Hibernate 4에서는 spring.jpa.hibernate.naming.strategy 을 사용하지만,
+Spring Boot 최신 버전(확인 필요) + Hibernate 5에서는 physical-strategy와 implicit-strategy를 사용해야 한다. 
+
+Hibernate5.x에서는 NamingStrategy가 두 개 인터페이스로 바꼈다.
+Hibernate5.x를 사용하는 스프링 부트 버전 레퍼런스에서도 아직 설명을 안 하고 있는 것 같다.(스프링 코어 레퍼런스에는 있나?)
+
+왜 자꾸 컬럼명이 카멜케이스로 만들어지냐 한참을 뒤줘봤더니 기존에 사용하던  naming strategy는 deprecated 됐고 이걸 사용해야 한다.
+
+그래도 스프링 부트지라에는 엄청난 얘기가 있구만..
+이건 내일 읽어보자 @.@
+
+application.property에서는  
+spring.jpa.hibernate.naming.physical-strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+spring.jpa.hibernate.naming.implicit-strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+
+이렇게 사용해야 하고,
+JavaConfig로 지정할 때는
+hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이름으로 지정해줘야 한다.
+
+끝~
+
+참조 : https://github.com/spring-projects/spring-boot/issues/2763
 
 # 개발 및 운영관련 고민
 ## 개발 DB와 운영 DB에서 엔티티 매핑 변경에 따른 스키마 반영은 어떻게 해야할까?
@@ -153,3 +248,7 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
 ## 데이터 셋업
 DBUnit을 사용한다. XML로 테스트 데이터를 만들고 이를 테스트 클래스와 동일한 경로로 /test/resources 하위에 두면 됨.
 > https://github.com/springtestdbunit/spring-test-dbunit 사용
+
+
+# TODO
+디비 컬럼 생성 규칙 : 카멜케이스를 _ 로 하는 방법 (xxx strategy)

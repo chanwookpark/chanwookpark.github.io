@@ -21,7 +21,14 @@ DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사�
     @GeneratedValue
     private long id;
 
-시퀀스(특히, 오라클)를 사용할 때는 [@SequenceGenerator](http://docs.oracle.com/javaee/6/api/javax/persistence/SequenceGenerator.html) 와 함께 사용. @SequenceGenerator 는 시퀀스에 대한 상세한 속성을 설정한다. 특별히 테스트 목적이 아니면 반드시 선언해서 사용하자.
+시퀀스(특히, 오라클)를 사용할 때는 [@SequenceGenerator](http://docs.oracle.com/javaee/6/api/javax/persistence/SequenceGenerator.html) 와 함께 사용. @SequenceGenerator 는 시퀀스에 대한 상세한 속성을 설정한다. 특별히 테스트 목적이 아니면 반드시 선언해서 사용하자. @SequenceGenerator 를 선언하지 않으면 모든 ID 값이 "hibernate_sequence"라는 이름의 1개 Generator를 사용한다.
+
+주의! Hibernate5부터는 Identity로 정확히 명시하지 않으면 사용하는 DB와 관계 없이 무조건 시퀀스 방식을 사용한다.
+@GeneratedValue(strategy = GenerationType.IDENTITY) 로 반드시 지정하자. AUTO로 지정하고 MySQL(Maris)에서 실행하면 hibernate_sequence라는 테이블이 생성된다.
+
+참조
+- https://github.com/spring-projects/spring-boot/commit/f3c311993a9a4f1cb5ec46bfb885d7d52e47480a
+- http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto 
 
 ## equals()와 hashcode() 구현하기 - 엔티티 동일성 확인
 업무 로직에 맞춰서 동일한 정보인지를 판단하는 로직을 보통 서비스 등에 개발을 하게 되는데, 엔티티의 동일성을 확인하는 코드는 이렇게 매번 필요할 때마다 if를 넣지 않고 엔티티 클래스의 equals()와 hashcode()를 구현해 비교하도록 하자.
@@ -171,7 +178,7 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
 하지만 연관 테이블이 단순히 연관 엔티티의 ID로만 매핑 된 것이 아니라 별도의 속성이 필요하다면 이를 역시나 엔티티로 매핑해 사용해야 한다.
 엔티티 매핑은 앞서 설명한 일대다/다대일 매핑과 동일하다. 단, 다대다 매핑 테이블의 엔티티의 ID를 연관 엔티티의 ID를 그대로 사용하고 싶은 경우에는 @IdClass 를 사용해야 한다.
 
-> TODO @IdClass 사용하는 케이스 추가 
+> TODO @IdClass 사용하는 케이스 추가
 
 # Query
 JPA에서 데이터를 조회할 때는 다음 순서로 접근하자.

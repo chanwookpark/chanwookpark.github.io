@@ -1,0 +1,96 @@
+---
+layout: post
+title:  "Flyway 사용하기"
+date:   2016-08-11 13:00:00 +0000
+categories: migration
+---
+
+DB Migration 지원툴인 Flyway를 실험 및 사용하면서 기록
+
+# 설정 파일
+설정 파일은 커맨드 실행 시에 인자로 넘기면 된다.
+
+> flyway -configFile=db-migration/flyway.conf
+
+-configFile로 지정할 수 있고 위처럼 실행하면 커맨드를 실행하는 위치에서 상대 경로로 파일을 찾는다.
+
+설정 파일 샘플은 아래와 같다.
+
+    # 운영이라 생각하고 DB
+    flyway.url=jdbc:mysql://localhost:3306/commerce_prod
+    flyway.user=commerce
+    flyway.password=1234
+    flyway.driver=com.mysql.jdbc.Driver
+    flyway.locations=filesystem:db-migration/sql
+    flyway.table=DATABASE_MIGRATION
+
+# 스키마 파일
+스키마 파일 작성 규칙은 [여기](https://flywaydb.org/documentation/migration/sql)에서 참조. 파일명도 규칙에 따라야 함. (naming 섹션 참고)
+스키마 파일 위치는 설정 파일에 지정한다. (flyway.locations)
+물론, 스키마 파일을 자바 등과 같은 언어를 사용해 개발도 가능하다. 동적인 처리가 필요한 경우 사용을 고려해볼 수 있겠다.
+한 번에 SQL 파일과 자바 파일을 동시에 사용도 가능함.
+
+스키마 파일명을 잘 못 적어줬을 때는 아래처럼 에러 발생
+
+> ERROR: Wrong migration name format: V1_FIRST_CREATE_SCHEMA.sql(It should look like this: V1_2__Description.sql)
+
+파일명이 변경되면 새로운 스키마 파일로 인식함.
+
+# 커맨드
+
+## migrate
+반영되지 않은 스키마 파일을 모두 실행해 최신 버전의 스키마로 마이그레이션 실행.
+메타테이블이 없는 경우 테이블 생성.
+
+https://flywaydb.org/documentation/command/migrate
+
+실행 방법
+> flyway ... migrate
+
+## clean
+[clean](https://flywaydb.org/documentation/command/clean)을 수행하면 메타테이블과 해당 DB가 초기화 된다.
+그러니 개발이나 테스트 DB에서만 사용할 것.
+
+## repair
+마이그레이션 도중에 어떠한 이유로든 실패하게 되면 해당 스키마 파일이 FAILED 상태가 된다.
+
+    ERROR: Migration of schema `commerce_prod` to version 2 - CREATE TEST TABLE failed! Please restore backups and roll back database and code!
+    ERROR:
+    Migration V2__CREATE_TEST_TABLE.sql failed
+    ------------------------------------------
+    SQL State  : 42S22
+    Error Code : 1054
+    Message    : Unknown column 'f2' in 'field list'
+    Location   : db-migration/sql/V2__CREATE_TEST_TABLE.sql (/Users/chanwook/src/commerce-model/db-migration/sql/V2__CREATE_TEST_TABLE.sql)
+    Line       : 3
+    Statement  : INSERT INTO TEST_TABLE(f2) VALUES('블라블라')
+
+이때 info로 메타테이블을 확인해보면 해당 스키마 파일의 상태가 FAILED로 되어 있고 다시 migarate를 해도 체크섬 에러가 발생하게 된다.
+
+Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+ERROR: Validate failed: Migration checksum mismatch for migration 2
+-> Applied to database : -309408409
+-> Resolved locally    : 394998005
+
+만약, 5개 중 3번째에서 실패가 됐다면 앞선 2개 파일은 정상 반영되고(SUCCESS), 실패한 3번째 파일은 실패 상태(FAILED)가 되며, 실행 조차 못한 2개 파일은 대기(PENDING) 상태가 된다.
+
+이 때 repair를 실행하면 실패한 3번째 파일의 상태가 대기(PENDING) 상태로 변견된다. 그리고 나서 에러난 파일의 문제를 해결한 후 다시 migrate를 실행하면 된다.
+
+## info
+[info](https://flywaydb.org/documentation/command/info)는 현재 메타테이블을 콘솔로 보여준다. 별도로 DB툴을 사용하지 않아도 현재 상태를 알 수 있어서 좋다.
+
+    c-connector:commerce-app chanwook$ flyway -configFile=db-migration/flyway.conf info
+    Flyway 4.0 by Boxfuse
+
+    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+
+    +---------+----------------------+---------------------+---------+
+    | Version | Description          | Installed on        | State   |
+    +---------+----------------------+---------------------+---------+
+    | 1       | INITIALIZE DB SCHEMA | 2016-08-08 04:05:30 | Success |
+    | 2       | CREATE TEST TABLE    | 2016-08-08 04:05:30 | Success |
+    | 3       | CHANGE ADDRESS FIELD | 2016-08-08 04:05:30 | Success |
+    +---------+----------------------+---------------------+---------+
+
+# TODO
+1. 스키마 파일 실행 중 에러가 발생하면 트랜잭션 처리(비슷하게라도..)할 방법은 없는것인가?

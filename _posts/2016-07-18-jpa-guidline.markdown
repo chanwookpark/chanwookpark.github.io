@@ -28,7 +28,7 @@ DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사�
 
 참조
 - https://github.com/spring-projects/spring-boot/commit/f3c311993a9a4f1cb5ec46bfb885d7d52e47480a
-- http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto 
+- http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto
 
 ## equals()와 hashcode() 구현하기 - 엔티티 동일성 확인
 업무 로직에 맞춰서 동일한 정보인지를 판단하는 로직을 보통 서비스 등에 개발을 하게 되는데, 엔티티의 동일성을 확인하는 코드는 이렇게 매번 필요할 때마다 if를 넣지 않고 엔티티 클래스의 equals()와 hashcode()를 구현해 비교하도록 하자.
@@ -331,9 +331,22 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 
 ...
 
-## DDL 생성
+## hibernate.hbm2ddl.auto에 대한 고찰
 
 > TODO update에 대해 확인해보기
+
+## Hibernate Tools를 사용해 DDL/DML 추출하기
+Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 엔티티의 DDL/DML 추출이 가능하다.
+여기서는 CREATE, DROP, UPDATE(ALTER) 정보를 얻어낼 수 있다.
+하지만 컬럼의 길이 변경 등과 같은 세세한 변경사항까지 정확하게 생성이 된다면 좋겠는데 그렇게 동작하지 않기 때문에 여기서 생성되는 파일의 정보를 바로 자동화된 기능을 가지고 적용할 수는 없다.
+
+오히려 여기서 생성된 파일을 개발자/DBA에게 변경 사항을 정확히 알 수 있게 공유하고 현재 운영의 스키마와 현재 최신 스키마를 비교(diff)하면서 마이그레이션 SQL을 작성해 내는 편이 좋다고 생각한다. 이렇게 만든 파일은 flyway와 같은 마이그레이션 툴을 함께 사용하면 베스트!
+
+개발 방법은 아래처럼하자.
+- 우선 메이븐 폼에 ant 플러그인 설정을 하고 [소스참조](https://github.com/chanwookpark/commerce-app/blob/master/pom.xml)
+- 이어서 Hibernate Tools Ant 파일을 만들고 [소스참조](https://github.com/chanwookpark/commerce-app/blob/master/build.xml)
+- 마지막으로 Ant 태스크 용 persistence.xml을 만들면 끝 [소스참조](https://github.com/chanwookpark/commerce-app/blob/master/commerce-app-backend/src/test/resources/META-INF/persistence.xml)
+- 해당 환경과 시점에 맞춰 위 내용을 수정해 사용하자!
 
 # Test
 
@@ -364,4 +377,4 @@ DBUnit을 사용한다. XML로 테스트 데이터를 만들고 이를 테스트
 
 
 # TODO
-디비 컬럼 생성 규칙 : 카멜케이스를 _ 로 하는 방법 (xxx strategy)
+...  

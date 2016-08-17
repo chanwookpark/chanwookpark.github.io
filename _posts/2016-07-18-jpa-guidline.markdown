@@ -8,28 +8,8 @@ categories: jpa
 JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드라인.
 일단 JPA로 시작하기는 하지만 어떤 식으로 정리될지는 두고봐야할듯..
 
-# 엔티티 매핑
-## 엔티티 ID 매핑
 
-- DB에서 생성하는 값 사용 (Sequence나 Identity)
-- 사용자에게 받는 값 사용
-- 로직으로 생성하는 값 사용
-
-DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사용한다.
-
-    @Id
-    @GeneratedValue
-    private long id;
-
-시퀀스(특히, 오라클)를 사용할 때는 [@SequenceGenerator](http://docs.oracle.com/javaee/6/api/javax/persistence/SequenceGenerator.html) 와 함께 사용. @SequenceGenerator 는 시퀀스에 대한 상세한 속성을 설정한다. 특별히 테스트 목적이 아니면 반드시 선언해서 사용하자. @SequenceGenerator 를 선언하지 않으면 모든 ID 값이 "hibernate_sequence"라는 이름의 1개 Generator를 사용한다.
-
-주의! Hibernate5부터는 Identity로 정확히 명시하지 않으면 사용하는 DB와 관계 없이 무조건 시퀀스 방식을 사용한다.
-@GeneratedValue(strategy = GenerationType.IDENTITY) 로 반드시 지정하자. AUTO로 지정하고 MySQL(Maris)에서 실행하면 hibernate_sequence라는 테이블이 생성된다.
-
-참조
-- https://github.com/spring-projects/spring-boot/commit/f3c311993a9a4f1cb5ec46bfb885d7d52e47480a
-- http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto
-
+# 엔티티 구현
 ## equals()와 hashcode() 구현하기 - 엔티티 동일성 확인
 업무 로직에 맞춰서 동일한 정보인지를 판단하는 로직을 보통 서비스 등에 개발을 하게 되는데, 엔티티의 동일성을 확인하는 코드는 이렇게 매번 필요할 때마다 if를 넣지 않고 엔티티 클래스의 equals()와 hashcode()를 구현해 비교하도록 하자.
 
@@ -76,6 +56,36 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
         <artifactId>lombok</artifactId>
         <version>${version.lombok}</version>
     </dependency>
+
+# 엔티티 매핑
+## 엔티티 ID 매핑
+- DB에서 생성하는 값 사용 (Sequence나 Identity)
+- 사용자에게 받는 값 사용
+- 로직으로 생성하는 값 사용
+
+DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사용한다.
+
+    @Id
+    @GeneratedValue
+    private long id;
+
+시퀀스(특히, 오라클)를 사용할 때는 [@SequenceGenerator](http://docs.oracle.com/javaee/6/api/javax/persistence/SequenceGenerator.html) 와 함께 사용. @SequenceGenerator 는 시퀀스에 대한 상세한 속성을 설정한다. 특별히 테스트 목적이 아니면 반드시 선언해서 사용하자. @SequenceGenerator 를 선언하지 않으면 모든 ID 값이 "hibernate_sequence"라는 이름의 1개 Generator를 사용한다.
+
+주의! Hibernate5부터는 Identity로 정확히 명시하지 않으면 사용하는 DB와 관계 없이 무조건 시퀀스 방식을 사용한다.
+@GeneratedValue(strategy = GenerationType.IDENTITY) 로 반드시 지정하자. AUTO로 지정하고 MySQL(Maris)에서 실행하면 hibernate_sequence라는 테이블이 생성된다.
+
+참조
+- https://github.com/spring-projects/spring-boot/commit/f3c311993a9a4f1cb5ec46bfb885d7d52e47480a
+- http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto
+
+## Enum 타입 매핑
+enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑한다.
+
+    @Column(nullable = false, length = 1)
+    @Enumerated(EnumType.STRING)
+    private ProductType productType = ProductType.P;
+
+기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다. 
 
 # 연관 관계 매핑
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.

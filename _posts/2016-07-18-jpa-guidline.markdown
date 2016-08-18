@@ -10,6 +10,7 @@ JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드�
 
 
 # 엔티티 구현
+
 ## equals()와 hashcode() 구현하기 - 엔티티 동일성 확인
 업무 로직에 맞춰서 동일한 정보인지를 판단하는 로직을 보통 서비스 등에 개발을 하게 되는데, 엔티티의 동일성을 확인하는 코드는 이렇게 매번 필요할 때마다 if를 넣지 않고 엔티티 클래스의 equals()와 hashcode()를 구현해 비교하도록 하자.
 
@@ -58,6 +59,7 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
     </dependency>
 
 # 엔티티 매핑
+
 ## 엔티티 ID 매핑
 - DB에서 생성하는 값 사용 (Sequence나 Identity)
 - 사용자에게 받는 값 사용
@@ -85,7 +87,7 @@ enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑�
     @Enumerated(EnumType.STRING)
     private ProductType productType = ProductType.P;
 
-기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다. 
+기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다.
 
 # 연관 관계 매핑
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.
@@ -211,6 +213,7 @@ JPA에서 데이터를 조회할 때는 다음 순서로 접근하자.
 http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#jpa.query-methods
 
 ## QueryDSL
+
 ### 환경설정
 POM에 의존성과 빌드 플러그인을 추가하면 된다.
 
@@ -260,6 +263,7 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 단, nativeQuery = true로 선언해줘야 한다.
 
 # Spring과 JPA 함께 사용하기
+
 ## 기본 환경설정
 일단 설정에 spring Boot의 JPA 모듈과 사용하는 DB에 맞는 JDBC를 POM에 추가해야 한다.
 
@@ -324,6 +328,7 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 참조 : https://github.com/spring-projects/spring-boot/issues/2763
 
 # 개발 및 운영관련 고민
+
 ## 개발 DB와 운영 DB에서 엔티티 매핑 변경에 따른 스키마 반영은 어떻게 해야할까?
 혼자 사용하는 로컬DB라면 JPA의 스키마를 계속 재생성하겠지만 여러 개발자가 함께 사용하는 개발DB나 운영DB에서는 그럴수가 없다.
 

@@ -23,9 +23,6 @@ categories: web template isomorphic
     @EnableWebMvc
     public class ViewConfig extends WebMvcConfigurerAdapter {
 
-        @Autowired
-        Environment env;
-
         @Override
         public void configureViewResolvers(ViewResolverRegistry registry) {
             registry.scriptTemplate().prefix("public/template/").suffix(".html");
@@ -39,11 +36,6 @@ categories: web template isomorphic
             configurer.setRenderObject("Mustache");
             configurer.setRenderFunction("render");
             return configurer;
-        }
-
-        @Override
-        public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
         }
     }
 
@@ -69,4 +61,17 @@ categories: web template isomorphic
         return o;
     }
 
-이제는 컨트롤러에서 파일명(또는 경로/파일명)으로 뷰이름만 지정해주면 연결 끝이다. 데이터 전달을 위해서는 ModelMap을 사용하면 된다. 
+이제는 컨트롤러에서 파일명(또는 경로/파일명)으로 뷰이름만 지정해주면 연결 끝이다. 데이터 전달을 위해서는 ModelMap을 사용하면 된다.
+
+    @Controller
+    public class WebController {
+
+        @RequestMapping("/main")
+        public String loginPage(ModelMap model) {
+
+            model.put("data", new Dto(...));
+            return "main";
+        }
+    }
+
+위 코드처럼 요청 URL과 템플릿 파일 이름이 동일한 경우 경로를 굳이 반환하지 않고 void 타입으로 메서드를 정의해도 된다. (스프링의 일반적인 뷰 매핑 규칙을 동일하게 따름)

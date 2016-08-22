@@ -1,22 +1,119 @@
 ---
 layout: post
-title:  "Flyway 사용하기"
+title:  "Flyway 공부"
 date:   2016-08-11 13:00:00 +0000
 categories: migration
 ---
 
-DB Migration 지원툴인 Flyway를 실험 및 사용하면서 기록
+얼마전 프로젝트에서 JPA 사용 환경에서 Flyway를 적용해볼까 하는 마음에 공부를 했던 내용을 간단히 기록해둡니다.
+(하지만 프로젝트를 못하는 바람에 일단은 공부로 끝..)
+
+# 소개
+
+Flyway는 DB 마이그레이션을 도와주는 오픈소스 프로그램입니다.
+도와준다는 걸 좀더 자세히 알아보면,
+
+- 마이그레이션 이력과 상태를 기록하는 테이블을 자동 생성
+- 마이그레이션 SQL을 파일(또는 Java 클래스)로 관리할 수 있도록 강제 (SQL 명령어를 제공하거나 그런건 아니다. 파일 이름으로 강제)
+- 마이그레이션의 성공/실패 등의 상태를 제공
+- 마이그레이션을 실패하면 문제(SQL 오류 등)를 해결하고 다시 시도할 수 있는 방법 제공
+
+특히나 운영환경에서 DB 변경 작업의 이력을 관리하고 문제가 발견되면 이를 고치고 재실행 할 수 있도록 지원하는 구조가 개인적으로는 가장 마음에 듭니다.
+마이그레이션하려는 내용을 파일(또는 Java 클래스)로 만들어야 하기 때문에 이력 뿐만 아니라 마이그레이션 했던 코드(SQL)가 소스관리까지 되니까 더 좋네요.
+
+# 사용방법
+
+[시작하기 문서](https://flywaydb.org/getstarted/)를 보니 flyway는 여러 가지 방식으로 사용이 가능하네요.
+커맨드라인으로 직접 실행할 수도 있고, 자바 API를 사용하거나 자바를 지원하는 여러 툴(maven, gradle 등)과 함께 사용할 수도 있습니다.
+
+마지막으로는 자동화를 고려해 봐야겠지만 저는 소규모 팀에서 DB를 책임지는 사람이 직저 검토하고 반영하는 절차를 원했기 때문에 커맨드라인 방식으로 테스트를 해봤습니다.
+
+# 설치
+
+[다운로드 페이지](https://flywaydb.org/getstarted/download)에서 받아서 사용하면 되는데 맥을 사용하면 [brew로 쉽게 설치](https://flywaydb.org/documentation/commandline/)가 가능합니다
+
+    $ brew install flyway
+
+다른 라이브러리나 프로그램 필요 없이 독립적으로 실행됩니다.
+
+# 실행
+
+커맨드라인에서는 flyway 명령어로 쉽게 실행이 가능합니다.
+
+    $ flyway [options] command
+
+커맨드는 flyway 실행 방식으로 총 6개를 제공합니다. (migrate, clean, info, validate, baseline)
+
+제공하는 옵션은 매우 다양합니다. flyway라고 처보면 아래처럼 설명이 잘 나와요..
+
+    $ flyway
+    Flyway 4.0 by Boxfuse
+
+    Usage
+    =====
+
+    flyway [options] command
+
+    By default, the configuration will be read from conf/flyway.conf.
+    Options passed from the command-line override the configuration.
+
+    Commands
+    --------
+    migrate  : Migrates the database
+    clean    : Drops all objects in the configured schemas
+    info     : Prints the information about applied, current and pending migrations
+    validate : Validates the applied migrations against the ones on the classpath
+    baseline : Baselines an existing database at the baselineVersion
+    repair   : Repairs the metadata table
+
+    Options (Format: -key=value)
+    -------
+    driver                       : Fully qualified classname of the jdbc driver
+    url                          : Jdbc url to use to connect to the database
+    user                         : User to use to connect to the database
+    password                     : Password to use to connect to the database
+    schemas                      : Comma-separated list of the schemas managed by Flyway
+    table                        : Name of Flyway's metadata table
+    locations                    : Classpath locations to scan recursively for migrations
+    resolvers                    : Comma-separated list of custom MigrationResolvers
+    skipDefaultResolvers         : Skips default resolvers (jdbc, sql and Spring-jdbc)
+    sqlMigrationPrefix           : File name prefix for sql migrations
+    repeatableSqlMigrationPrefix : File name prefix for repeatable sql migrations
+    sqlMigrationSeparator        : File name separator for sql migrations
+    sqlMigrationSuffix           : File name suffix for sql migrations
+    encoding                     : Encoding of sql migrations
+    placeholderReplacement       : Whether placeholders should be replaced
+    placeholders                 : Placeholders to replace in sql migrations
+    placeholderPrefix            : Prefix of every placeholder
+    placeholderSuffix            : Suffix of every placeholder
+    target                       : Target version up to which Flyway should use migrations
+    outOfOrder                   : Allows migrations to be run "out of order"
+    callbacks                    : Comma-separated list of FlywayCallback classes
+    skipDefaultCallbacks         : Skips default callbacks (sql)
+    validateOnMigrate            : Validate when running migrate
+    ignoreFutureMigrations       : Allow future migrations when validating
+    cleanOnValidationError       : Automatically clean on a validation error
+    cleanDisabled                : Whether to disable clean
+    baselineVersion              : Version to tag schema with when executing baseline
+    baselineDescription          : Description to tag schema with when executing baseline
+    baselineOnMigrate            : Baseline on migrate against uninitialized non-empty schema
+    configFile                   : Config file to use (default: conf/flyway.properties)
+    configFileEncoding           : Encoding of the config file (default: UTF-8)
+    jarDirs                      : Dirs for Jdbc drivers & Java migrations (default: jars)
 
 # 설정 파일
-설정 파일은 커맨드 실행 시에 인자로 넘기면 된다.
 
-> flyway -configFile=db-migration/flyway.conf
+물론 위 옵션을 다 사용하지는 않지마 매번 입력하기는 여간 힘든 일이 아니니 당연히 설정 파일로 만들어 두고 사용하는 편이 좋겠습니다.
 
--configFile로 지정할 수 있고 위처럼 실행하면 커맨드를 실행하는 위치에서 상대 경로로 파일을 찾는다.
+설정 파일은 키=밸류 형태의 프로퍼티 파일로 만들고 실행 시에 -configFile로 경로를 넘겨주면 됩니다. 경로는 상대경로와 절대경로(file:)를 모두 사용할수 있습니다.
 
-설정 파일 샘플은 아래와 같다.
+    $ flyway -configFile=db-migration/flyway.conf
 
-    # 운영이라 생각하고 DB
+설정 파일과 아래 이어서 나오는 마이그레이션 파일은 소스폴더에 적절히 위치를 잡아서 함께 두는 편이 좋겠네요.  
+
+설정 파일 샘플은 아래처럼 만들어 테스트해봤습니다.
+
+    # 운영이라 생각하고 계정을 분리
     flyway.url=jdbc:mysql://localhost:3306/commerce_prod
     flyway.user=commerce
     flyway.password=1234
@@ -24,35 +121,79 @@ DB Migration 지원툴인 Flyway를 실험 및 사용하면서 기록
     flyway.locations=filesystem:db-migration/sql
     flyway.table=DATABASE_MIGRATION
 
-# 스키마 파일
-스키마 파일 작성 규칙은 [여기](https://flywaydb.org/documentation/migration/sql)에서 참조. 파일명도 규칙에 따라야 함. (naming 섹션 참고)
-스키마 파일 위치는 설정 파일에 지정한다. (flyway.locations)
-물론, 스키마 파일을 자바 등과 같은 언어를 사용해 개발도 가능하다. 동적인 처리가 필요한 경우 사용을 고려해볼 수 있겠다.
-한 번에 SQL 파일과 자바 파일을 동시에 사용도 가능함.
+# 마이그레이션 파일
 
-스키마 파일명을 잘 못 적어줬을 때는 아래처럼 에러 발생
+마이그레이션 파일은 [이 문서](https://flywaydb.org/documentation/migration/sql)을 참고해 작성하면 됩니다.
 
-> ERROR: Wrong migration name format: V1_FIRST_CREATE_SCHEMA.sql(It should look like this: V1_2__Description.sql)
+특히나, 파일 이름을 잘 만들어 줘야 합니다(위 링크에서 Naming 절 참조).
+버전과 설명(Description)을 잘 달아줘야 합니다. 파일명의 설명부분(Description)이 이력 테이블에 그대로 기록되기 때문에 나중에 찾아 볼때도 쉽게 찾아갈 수 있도록 적어주는 것이 주요해 보이네요. (역시나 어디서나 작명이 중요..)
 
-파일명이 변경되면 새로운 스키마 파일로 인식함.
+https://flywaydb.org/assets/balsamiq/SqlMigrationNaming.png
+
+파일명을 잘못 기록해주면 아래처럼 에러가 발생합니다.
+
+    ERROR: Wrong migration name format: V1_FIRST_CREATE_SCHEMA.sql(It should look like this: V1_2__Description.sql)
+
+파일 이름 만으로 파일을 구분하기 때문에 당연히 파일 이름이 변경되면 새로운 마이그레이션 파일로 처리됩니다. (이력 테이블에 새로 추가 )
+
+파일 위치는 기본 규칙을 따라도 되지만 설정 파일에서 직접 정해준 경로를 사용할 수도 있습니다.
+
+마이그레이션 파일은 기본적으로 SQL 문을 포함하는 파일(.sql)로 만들면 되지만, 자바 클래스를 사용할수도 있습니다.
+두 가지 방법을 동시에 활용할 수도 있습니다. 무언가 동적인 마이그레이션이거나 스키마보다는 데이터의 마이그레이션이 필요한 경우 활용할 수 있겠네요.
 
 # 커맨드
 
 ## migrate
-반영되지 않은 스키마 파일을 모두 실행해 최신 버전의 스키마로 마이그레이션 실행.
-메타테이블이 없는 경우 테이블 생성.
 
-https://flywaydb.org/documentation/command/migrate
+[마이그레이션을 실행하는 커맨드](https://flywaydb.org/documentation/command/migrate)입니다.
 
-실행 방법
-> flyway ... migrate
+    $ flyway -configFile=db-migration/flyway.conf migrate
+
+DB에 반영되지 않은 마이그레이션 파일을 순서대로 실행합니다. 순서는 버전에 따라 실행됩니다.
+반영안된 파일을 모두 실행하며, 처음으로 추가한 파일이라면 실행하면서 이력 테이블에 새롭게 추가를 해줍니다.
+
+실행 결과는 아래처럼 콘솔에 출력이 됩니다. (3개 마이그레이션 파일을 실행한 결과)
+
+    $ flyway -configFile=db-migration/flyway.conf migrate
+    Flyway 4.0 by Boxfuse
+
+    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+    Successfully validated 3 migrations (execution time 00:00.006s)
+    Creating Metadata table: `commerce_prod`.`DATABASE_MIGRATION`
+    Current version of schema `commerce_prod`: << Empty Schema >>
+    Migrating schema `commerce_prod` to version 1 - INITIALIZE DB SCHEMA
+    Migrating schema `commerce_prod` to version 2 - CREATE TEST TABLE
+    WARNING: DB: Unknown table 'commerce_prod.test_table' (SQL State: 42S02 - Error Code: 1051)
+    Migrating schema `commerce_prod` to version 3 - CHANGE ADDRESS FIELD
+    Successfully applied 3 migrations to schema `commerce_prod` (execution time 00:00.505s).
+
+
+## info
+[info](https://flywaydb.org/documentation/command/info) 커맨드는 이력 테이블을 콘솔에 출력해줍니다.
+나름 이쁘게 잘 나옵니다^^.
+
+    $ flyway -configFile=db-migration/flyway.conf info
+    Flyway 4.0 by Boxfuse
+
+    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+
+    +---------+----------------------+---------------------+---------+
+    | Version | Description          | Installed on        | State   |
+    +---------+----------------------+---------------------+---------+
+    | 1       | INITIALIZE DB SCHEMA | 2016-08-23 02:08:27 | Success |
+    | 2       | CREATE TEST TABLE    | 2016-08-23 02:08:27 | Success |
+    | 3       | CHANGE ADDRESS FIELD | 2016-08-23 02:08:27 | Success |
+    +---------+----------------------+---------------------+---------+
+
 
 ## clean
-[clean](https://flywaydb.org/documentation/command/clean)을 수행하면 메타테이블과 해당 DB가 초기화 된다.
-그러니 개발이나 테스트 DB에서만 사용할 것.
+[clean](https://flywaydb.org/documentation/command/clean)은 조심해서 실행해야 합니다.
+clean은 이력 테이블만 초기화 해주는 것이 아니라 해당 DB 자체를 초기화(Drops all objects)하기 때문에 테이블 전체가 삭제됩니다.
+실제로 운영에서는 사용할 수 있을까 싶네요.. 가이드에서도 운영(production)에서는 사용하지 말라고 경고하고 있습니다.
 
 ## repair
-마이그레이션 도중에 어떠한 이유로든 실패하게 되면 해당 스키마 파일이 FAILED 상태가 된다.
+
+마이그레이션 도중에 어떠한 이유로든 실패하게 되면 해당 스키마 파일이 FAILED 상태가 됩니다.
 
     ERROR: Migration of schema `commerce_prod` to version 2 - CREATE TEST TABLE failed! Please restore backups and roll back database and code!
     ERROR:
@@ -65,32 +206,17 @@ https://flywaydb.org/documentation/command/migrate
     Line       : 3
     Statement  : INSERT INTO TEST_TABLE(f2) VALUES('블라블라')
 
-이때 info로 메타테이블을 확인해보면 해당 스키마 파일의 상태가 FAILED로 되어 있고 다시 migarate를 해도 체크섬 에러가 발생하게 된다.
-
-Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
-ERROR: Validate failed: Migration checksum mismatch for migration 2
--> Applied to database : -309408409
--> Resolved locally    : 394998005
-
-만약, 5개 중 3번째에서 실패가 됐다면 앞선 2개 파일은 정상 반영되고(SUCCESS), 실패한 3번째 파일은 실패 상태(FAILED)가 되며, 실행 조차 못한 2개 파일은 대기(PENDING) 상태가 된다.
-
-이 때 repair를 실행하면 실패한 3번째 파일의 상태가 대기(PENDING) 상태로 변견된다. 그리고 나서 에러난 파일의 문제를 해결한 후 다시 migrate를 실행하면 된다.
-
-## info
-[info](https://flywaydb.org/documentation/command/info)는 현재 메타테이블을 콘솔로 보여준다. 별도로 DB툴을 사용하지 않아도 현재 상태를 알 수 있어서 좋다.
-
-    c-connector:commerce-app chanwook$ flyway -configFile=db-migration/flyway.conf info
-    Flyway 4.0 by Boxfuse
+이때 info로 이력 테이블을 확인해보면 해당 마이그레이션 파일의 상태가 FAILED로 되어 있고 다시 migarate를 해도 체크섬 에러가 발생하게 됩니다.
 
     Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+    ERROR: Validate failed: Migration checksum mismatch for migration 2
+    -> Applied to database : -309408409
+    -> Resolved locally    : 394998005
 
-    +---------+----------------------+---------------------+---------+
-    | Version | Description          | Installed on        | State   |
-    +---------+----------------------+---------------------+---------+
-    | 1       | INITIALIZE DB SCHEMA | 2016-08-08 04:05:30 | Success |
-    | 2       | CREATE TEST TABLE    | 2016-08-08 04:05:30 | Success |
-    | 3       | CHANGE ADDRESS FIELD | 2016-08-08 04:05:30 | Success |
-    +---------+----------------------+---------------------+---------+
+만약, 5개 중 3번째에서 실패가 됐다면 앞선 2개 파일은 정상 반영되고(SUCCESS), 실패한 3번째 파일은 실패 상태(FAILED)가 되며, 실행 조차 못한 2개 파일은 대기(PENDING) 상태가 되버리는 것이죠
+
+이 때 repair를 실행하면 실패한 3번째 파일의 상태가 대기(PENDING) 상태로 변견되며, 그제서야 다시 마이그레이션을 실행할 수 있는 상태가 됩니다.
+이제 마이그레이션 파일의 문제를 해결하고 다시 migarate를 하면 ok.
 
 # TODO
 1. 스키마 파일 실행 중 에러가 발생하면 트랜잭션 처리(비슷하게라도..)할 방법은 없는것인가?

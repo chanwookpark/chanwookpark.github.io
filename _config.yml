@@ -20,7 +20,7 @@ facebook_username: chanwook.park.1
 # Build settings
 markdown: kramdown
 
-highlighter: pygments
+highlighter: rouge
 safe: true
 lsi: true
 

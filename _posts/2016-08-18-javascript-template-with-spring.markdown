@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "스프링에서 자바스크립트 템플릿 사용하기(Isomorphic Template)"
+title:  "스프링에서 자바스크립트 템플릿 사용하기 (Isomorphic Template, 작성중)"
 date:   2016-07-18 13:00:00 +0000
 categories: web template isomorphic
 ---
@@ -141,7 +141,7 @@ JSP를 사용해 서버 코드와 섞어 버리고 나서 프론트 개발자(HT
         }
     }
 
-화면을 처리하는 ScriptTemplateView로 들어가기 직전인 HandlerInterceptor.postHandle(..)을 사용하시면 됩니다. 
+화면을 처리하는 ScriptTemplateView로 들어가기 직전인 HandlerInterceptor.postHandle(..)을 사용하시면 됩니다.
 
 ## 프론트 코드 참조
 

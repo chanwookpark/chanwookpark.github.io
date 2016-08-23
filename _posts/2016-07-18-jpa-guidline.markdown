@@ -7,14 +7,16 @@ categories: jpa
 
 JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드라인.
 일단 JPA로 시작하기는 하지만 어떤 식으로 정리될지는 두고봐야할듯..
-
+계속 작성하는 페이지.
 
 # 엔티티 구현
 
 ## equals()와 hashcode() 구현하기 - 엔티티 동일성 확인
+
 업무 로직에 맞춰서 동일한 정보인지를 판단하는 로직을 보통 서비스 등에 개발을 하게 되는데, 엔티티의 동일성을 확인하는 코드는 이렇게 매번 필요할 때마다 if를 넣지 않고 엔티티 클래스의 equals()와 hashcode()를 구현해 비교하도록 하자.
 
 ### 언제 사용하는가?
+
 - 엔티티가 동일한지 직접 비교 하거나 (if)
 - Set에 저장할 때 (Set은 중복을 허용하지 않기 때문에)
  - SET에 직접 엔티티를 저장하거나
@@ -24,6 +26,7 @@ JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드�
 - find()한 객체와 Query/Criteria로 로딩한 객체의 동일성 확인할 때
 
 ### 어떻게 구현해야 하나?
+
 - 구현하지 않는다 (equals()와 hashcode()를 override하지 않음)
  - 세션에서 동일한 ID를 같는 객체가 이미 로딩된 경우에 이 객체를 그대로 반환하기 때문에 동일한 객체로 인식함
 - ID 프로퍼티만 사용해 비교하도록 equals()와 hashcode()를 구현한다 (Member의 id 필드만 사용해 비교)
@@ -39,9 +42,11 @@ JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드�
 
 
 ### 참조
+
 - https://vladmihalcea.com/2013/10/23/hibernate-facts-equals-and-hashcode/
 
 ## Lombok과 함께 사용하기
+
 항상 만들어야 하는 getter/setter와 생성자는 Lombok을 사용하고 코드를 작성하지말자.
 기본 포맷은 다음처럼 (필요 시 더 추가..)
 
@@ -61,6 +66,7 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
 # 엔티티 매핑
 
 ## 엔티티 ID 매핑
+
 - DB에서 생성하는 값 사용 (Sequence나 Identity)
 - 사용자에게 받는 값 사용
 - 로직으로 생성하는 값 사용
@@ -81,6 +87,7 @@ DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사�
 - http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto
 
 ## Enum 타입 매핑
+
 enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑한다.
 
     @Column(nullable = false, length = 1)
@@ -90,6 +97,7 @@ enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑�
 기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다.
 
 # 연관 관계 매핑
+
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.
 
 엔티티 연관은 다음과 같은 다중성으로 표현이 가능하다.
@@ -101,6 +109,7 @@ enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑�
 보통은 1:N과 N:1을 양방향 관계로 많이 사용하기 때문에 실제로는 3가지 연관관계가 있다고 보면 된다.
 
 ## 1:N과 N:1 처리
+
 DB 외래키가 생성되는 건 N:1 연관을 선언한 엔티티가 된다.
 
     @Entity
@@ -144,6 +153,7 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
 참고로 일대다(1:N) 단방향 매핑은 가능하면 사용하지 않돋록 한다. (엔티티와 DB 매핑이 복잡해지기 때문)
 
 ## 일대일(1:1)
+
 일 대 일 @OneToOne 을 사용해 매핑한다. 일대일 관계에서는 양쪽 테이블에 외래키가 생성된다. 그러므로 양쪽에 관계가 누락되지 않도록 정확하게 연관 관계 설정을 해주는 것이 필요하다.
 
     @Entity
@@ -169,6 +179,7 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
     }
 
 ## 다대다(N:N)
+
 다대다 관계는 매핑 시에 다대다로 매핑해 사용할 수도 있고, 아니면 매핑 테이블을 엔티티로 매핑해 일대다/다대일 관계로 만들어 사용할 수도 있다.
 두 엔티티간의 단순한 다대다 관계라면 아래처럼 @JoinTable 을 사용해 매핑하면 된다.
 
@@ -193,6 +204,7 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
 > TODO @IdClass 사용하는 케이스 추가
 
 # Query
+
 JPA에서 데이터를 조회할 때는 다음 순서로 접근하자.
 - 첫 번째 단계
  - findOne(), findAll() 등 Repository의 기본 함수로 엔티티를 조회 후 객체 Graph를 통해 데이터 처리
@@ -208,6 +220,7 @@ JPA에서 데이터를 조회할 때는 다음 순서로 접근하자.
  - Native SQL을 실행 ..
 
 ## Query 메서드
+
 따로 설정을 필요 없고 리파지토리 인터페이스에 엔티티의 속성명을 기준으로 쿼리 메서드를 추가하면 된다.
 
 http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#jpa.query-methods
@@ -215,16 +228,19 @@ http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#jpa.qu
 ## QueryDSL
 
 ### 환경설정
+
 POM에 의존성과 빌드 플러그인을 추가하면 된다.
 
 https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/
 
 ### Repository 인터페이스 추가
+
 Repository 인터페이스에 QueryDslPredicateExecutor<?> 인터페이스를 상속하도록 한다.
 
 http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#core.extensions.querydsl
 
 ### 사용하기
+
 Q로 시작하는 쿼리 클래스를 사용해서 쿼리문을 생성해서 리파지토리에 전달한다.
 
     final QMember member = QMember.member;
@@ -245,6 +261,7 @@ Q로 시작하는 쿼리 클래스를 사용해서 쿼리문을 생성해서 리
 TODO 쿼리문을 만드는 로직의 위치에 대한 고민 : 서비스냐 도메인이냐
 
 ## JPQL
+
 Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터페이스에 JPQL을 정의해 사용한다.
 
 아래는 예제코드다.
@@ -259,12 +276,14 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
     }
 
 ## Native SQL
+
 Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터페이스에 Native SQL을 직접 작성할 수 있다.
 단, nativeQuery = true로 선언해줘야 한다.
 
 # Spring과 JPA 함께 사용하기
 
 ## 기본 환경설정
+
 일단 설정에 spring Boot의 JPA 모듈과 사용하는 DB에 맞는 JDBC를 POM에 추가해야 한다.
 
 <!-- 기타 Spring boot 설정도 필요 -->
@@ -299,11 +318,13 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 ![스프링 부트에서 정의한 JPA 속성](/jpa-guideline/spirng-jpa-properties.png)
 
 ## Config 클래스 만들기
+
 기본 설정으로 부족할 경우에는 JavaConfig 클래스를 만들어 JPA 관련 설정을 정리하자
 
 자세한 내용은 [스프링 데이터 JPA 가이드](http://docs.spring.io/spring-data/jpa/docs/1.9.4.RELEASE/reference/html/#jpa.java-config) 참조.
 
 ## Naming strategy
+
 Spring Boot 이전 버전(확인 필요) + Hibernate 4에서는 spring.jpa.hibernate.naming.strategy 을 사용하지만,
 Spring Boot 최신 버전(확인 필요) + Hibernate 5에서는 physical-strategy와 implicit-strategy를 사용해야 한다.
 
@@ -330,6 +351,7 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 # 개발 및 운영관련 고민
 
 ## 개발 DB와 운영 DB에서 엔티티 매핑 변경에 따른 스키마 반영은 어떻게 해야할까?
+
 혼자 사용하는 로컬DB라면 JPA의 스키마를 계속 재생성하겠지만 여러 개발자가 함께 사용하는 개발DB나 운영DB에서는 그럴수가 없다.
 
 이럴 때는 변경된 매핑 정보에 대한 DDL 스크립트를 별도로 준비하고 우선 개발환경에서 변경된 스키마 정보를 반영 후 역시 함께 변경한 매핑 정보가 반영된 애플리케이션을 다시 배포해 확인한다. 검증이 되면 그 때 운영에 역시 스키마를 변경하고 애플리케이션을 배포하는 순으로 작업한다.
@@ -351,6 +373,7 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 > TODO update에 대해 확인해보기
 
 ## Hibernate Tools를 사용해 DDL/DML 추출하기
+
 Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 엔티티의 DDL/DML 추출이 가능하다.
 여기서는 CREATE, DROP, UPDATE(ALTER) 정보를 얻어낼 수 있다.
 하지만 컬럼의 길이 변경 등과 같은 세세한 변경사항까지 정확하게 생성이 된다면 좋겠는데 그렇게 동작하지 않기 때문에 여기서 생성되는 파일의 정보를 바로 자동화된 기능을 가지고 적용할 수는 없다.
@@ -366,6 +389,7 @@ Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 �
 # Test
 
 ## JPA 테스트 클래스 생성
+
 - 엔티티 및 리파지토리 빈 설정 로딩
 - 트랜잭션/캐시 등 테스트 정보를 클리어하는 기능과 TestEntityManager클래스등과 같은 JPA 테스트 편의 기능/설정 지원
 - 임베디드DB(H2 등)가 아닌 설치형 DB(오라클,마이SQL등)를 사용 지원
@@ -387,9 +411,11 @@ Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 �
     }
 
 ## 데이터 셋업
+
 DBUnit을 사용한다. XML로 테스트 데이터를 만들고 이를 테스트 클래스와 동일한 경로로 /test/resources 하위에 두면 됨.
 > https://github.com/springtestdbunit/spring-test-dbunit 사용
 
 
 # TODO
+
 ...  

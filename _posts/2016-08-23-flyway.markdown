@@ -32,9 +32,9 @@ JPA를 사용하면서 어떻게 하면 DB 변경 사항(특히, 스키마)을 �
 
 [다운로드 페이지](https://flywaydb.org/getstarted/download)에서 받아서 사용하면 되는데 맥을 사용하면 [brew로 쉽게 설치](https://flywaydb.org/documentation/commandline/)가 가능합니다
 
-{% highlight shell %}
+```ShellSession
 $ brew install flyway
-{% endhighlight %}
+```
 
 다른 라이브러리나 프로그램 필요 없이 독립적으로 실행됩니다. Good.
 
@@ -42,18 +42,17 @@ $ brew install flyway
 
 커맨드라인에서는 flyway 명령어로 쉽게 실행이 가능합니다.
 
-{% highlight shell %}
+```ShellSession
 $ flyway [options] command
-{% endhighlight %}
+```
 
 command(이하 한글로 커맨드로 적습니다)는 flyway 실행 방식으로 총 6 가지를 제공합니다. (migrate, clean, info, validate, baseline)
 
 제공하는 옵션은 매우 다양합니다. flyway라고 처보면 아래처럼 설명이 잘 나와요.. (사이트 문서화도 잘되어 있는 편이지만 그보다 프로그램 실행 중 만나는 로그나 가이드 등이 꽤 잘되어 있습니다)
 
-{% highlight shell %}
+```ShellSession
 $ flyway
 Flyway 4.0 by Boxfuse
-{% endhighlight %}
 
 Usage
 =====
@@ -106,7 +105,7 @@ baselineOnMigrate            : Baseline on migrate against uninitialized non-emp
 configFile                   : Config file to use (default: conf/flyway.properties)
 configFileEncoding           : Encoding of the config file (default: UTF-8)
 jarDirs                      : Dirs for Jdbc drivers & Java migrations (default: jars)
-{% endhighlight %}
+```
 
 # 설정 파일
 
@@ -114,15 +113,15 @@ jarDirs                      : Dirs for Jdbc drivers & Java migrations (default:
 
 설정 파일은 '키=밸류' 형식의 프로퍼티 파일로 만들고 실행 시에 -configFile로 경로를 넘겨주면 됩니다. 경로는 상대경로와 절대경로(filesystem:)를 모두 사용할수 있습니다.
 
-{% highlight shell %}
+```ShellSession
 $ flyway -configFile=db-migration/flyway.conf
-{% endhighlight %}
+```
 
 설정 파일과 아래 이어서 나오는 마이그레이션 파일은 소스폴더에 적절히 위치를 잡아서 함께 두는 편이 좋겠네요.  
 
 설정 파일 샘플은 아래처럼 만들어 테스트해봤습니다.
 
-{% highlight properties %}
+```INI
 -- 운영이라 생각하고 계정을 분리
 flyway.url=jdbc:mysql://localhost:3306/commerce_prod
 flyway.user=commerce
@@ -130,7 +129,7 @@ flyway.password=1234
 flyway.driver=com.mysql.jdbc.Driver
 flyway.locations=filesystem:db-migration/sql
 flyway.table=DATABASE_MIGRATION
-{% endhighlight %}
+```
 
 # 마이그레이션 파일
 
@@ -143,7 +142,9 @@ flyway.table=DATABASE_MIGRATION
 
 파일명을 잘못 기록해주면 아래처럼 에러가 발생합니다.
 
-    ERROR: Wrong migration name format: V1_FIRST_CREATE_SCHEMA.sql(It should look like this: V1_2__Description.sql)
+```ShellSession
+ERROR: Wrong migration name format: V1_FIRST_CREATE_SCHEMA.sql(It should look like this: V1_2__Description.sql)
+```
 
 파일 이름 만으로 파일을 구분하기 때문에 당연히 이름이 변경되면 새로운 마이그레이션 파일로 처리됩니다. (이력 테이블에도 새로 추가)
 파일 위치는 기본 규칙을 따라도 되지만 설정 파일에서 직접 정해준 경로를 사용할 수도 있습니다.
@@ -157,48 +158,53 @@ flyway.table=DATABASE_MIGRATION
 
 [마이그레이션을 실행하는 커맨드](https://flywaydb.org/documentation/command/migrate)입니다.
 
-    $ flyway -configFile=db-migration/flyway.conf migrate
+```ShellSession
+$ flyway -configFile=db-migration/flyway.conf migrate
+```
 
 DB에 반영되지 않은 마이그레이션 파일을 순서대로 실행합니다. 아직 반영되지 않은 마이그레이션 파일을 낮은 버전부터 순서대로 실행합니다.
 처음으로 추가한 파일이라면 실행하면서 이력 테이블에 새롭게 추가 해줍니다.
 
 실행 결과는 아래처럼 콘솔에 출력이 됩니다. (3개 마이그레이션 파일을 실행한 결과)
 
-    $ flyway -configFile=db-migration/flyway.conf migrate
-    Flyway 4.0 by Boxfuse
+```ShellSession
+$ flyway -configFile=db-migration/flyway.conf migrate
+Flyway 4.0 by Boxfuse
 
-    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
-    Successfully validated 3 migrations (execution time 00:00.006s)
-    Creating Metadata table: `commerce_prod`.`DATABASE_MIGRATION`
-    Current version of schema `commerce_prod`: << Empty Schema >>
-    Migrating schema `commerce_prod` to version 1 - INITIALIZE DB SCHEMA
-    Migrating schema `commerce_prod` to version 2 - CREATE TEST TABLE
-    WARNING: DB: Unknown table 'commerce_prod.test_table' (SQL State: 42S02 - Error Code: 1051)
-    Migrating schema `commerce_prod` to version 3 - CHANGE ADDRESS FIELD
-    Successfully applied 3 migrations to schema `commerce_prod` (execution time 00:00.505s).
-
+Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+Successfully validated 3 migrations (execution time 00:00.006s)
+Creating Metadata table: `commerce_prod`.`DATABASE_MIGRATION`
+Current version of schema `commerce_prod`: << Empty Schema >>
+Migrating schema `commerce_prod` to version 1 - INITIALIZE DB SCHEMA
+Migrating schema `commerce_prod` to version 2 - CREATE TEST TABLE
+WARNING: DB: Unknown table 'commerce_prod.test_table' (SQL State: 42S02 - Error Code: 1051)
+Migrating schema `commerce_prod` to version 3 - CHANGE ADDRESS FIELD
+Successfully applied 3 migrations to schema `commerce_prod` (execution time 00:00.505s).
+```
 
 ## info
 
 [info](https://flywaydb.org/documentation/command/info) 커맨드는 이력 테이블을 콘솔에 출력해줍니다.
 나름 이쁘게 잘 나옵니다^^.
 
-    $ flyway -configFile=db-migration/flyway.conf info
-    Flyway 4.0 by Boxfuse
+```ShellSession
+$ flyway -configFile=db-migration/flyway.conf info
+Flyway 4.0 by Boxfuse
 
-    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
 
-    +---------+----------------------+---------------------+---------+
-    | Version | Description          | Installed on        | State   |
-    +---------+----------------------+---------------------+---------+
-    | 1       | INITIALIZE DB SCHEMA | 2016-08-23 02:08:27 | Success |
-    | 2       | CREATE TEST TABLE    | 2016-08-23 02:08:27 | Success |
-    | 3       | CHANGE ADDRESS FIELD | 2016-08-23 02:08:27 | Success |
-    +---------+----------------------+---------------------+---------+
++---------+----------------------+---------------------+---------+
+| Version | Description          | Installed on        | State   |
++---------+----------------------+---------------------+---------+
+| 1       | INITIALIZE DB SCHEMA | 2016-08-23 02:08:27 | Success |
+| 2       | CREATE TEST TABLE    | 2016-08-23 02:08:27 | Success |
+| 3       | CHANGE ADDRESS FIELD | 2016-08-23 02:08:27 | Success |
++---------+----------------------+---------------------+---------+
+```
 
 info는 전체 필드를 보여주지는 않습니다. 생성되는 이력 테이블 전체 필드는 아래를 참조하세요.
 
-{% highlight sql %}
+```SQL
 CREATE TABLE `DATABASE_MIGRATION`
 (
    installed_rank   int(11),
@@ -212,7 +218,7 @@ CREATE TABLE `DATABASE_MIGRATION`
    execution_time   int(11),
    success          tinyint(1)
 )
-{% endhighlight %}
+```
 
 ## clean
 
@@ -225,23 +231,27 @@ clean은 이력 테이블만 초기화 해주는 것이 아니라 해당 DB 자�
 
 마이그레이션 도중에 어떠한 이유로든 실패하게 되면 그 시점에서 마이그레이션 진행이 중지됩니다.
 
-    ERROR: Migration of schema `commerce_prod` to version 2 - CREATE TEST TABLE failed! Please restore backups and roll back database and code!
-    ERROR:
-    Migration V2__CREATE_TEST_TABLE.sql failed
-    ------------------------------------------
-    SQL State  : 42S22
-    Error Code : 1054
-    Message    : Unknown column 'f2' in 'field list'
-    Location   : db-migration/sql/V2__CREATE_TEST_TABLE.sql (/Users/chanwook/src/commerce-model/db-migration/sql/V2__CREATE_TEST_TABLE.sql)
-    Line       : 3
-    Statement  : INSERT INTO TEST_TABLE(f2) VALUES('블라블라')
+```ShellSession
+ERROR: Migration of schema `commerce_prod` to version 2 - CREATE TEST TABLE failed! Please restore backups and roll back database and code!
+ERROR:
+Migration V2__CREATE_TEST_TABLE.sql failed
+------------------------------------------
+SQL State  : 42S22
+Error Code : 1054
+Message    : Unknown column 'f2' in 'field list'
+Location   : db-migration/sql/V2__CREATE_TEST_TABLE.sql (/Users/chanwook/src/commerce-model/db-migration/sql/V2__CREATE_TEST_TABLE.sql)
+Line       : 3
+Statement  : INSERT INTO TEST_TABLE(f2) VALUES('블라블라')
+```
 
 이때 info로 이력 테이블을 확인해보면 해당 마이그레이션 상태가 FAILED로 나오고, 다시 migarate를 해도 체크섬 에러가 발생하게 됩니다.
 
-    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
-    ERROR: Validate failed: Migration checksum mismatch for migration 2
-    -> Applied to database : -309408409
-    -> Resolved locally    : 394998005
+```ShellSession
+Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+ERROR: Validate failed: Migration checksum mismatch for migration 2
+-> Applied to database : -309408409
+-> Resolved locally    : 394998005
+```
 
 만약, 5개 중 3번째에서 실패가 됐다면 앞선 2개 파일은 정상 반영되고(SUCCESS), 실패한 3번째 파일은 실패 상태(FAILED)가 되며, 실행 조차 못한 2개 파일은 대기(PENDING) 상태가 되버리게 됩니다.
 
@@ -254,13 +264,15 @@ clean은 이력 테이블만 초기화 해주는 것이 아니라 해당 DB 자�
 
 마이그레이션 완료된 파일을 변경하고 validate를 실행해보면 체크섬 에러가 발생합니다.
 
-    $ flyway -configFile=db-migration/flyway.conf validate
-    Flyway 4.0 by Boxfuse
+```ShellSession
+$ flyway -configFile=db-migration/flyway.conf validate
+Flyway 4.0 by Boxfuse
 
-    Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
-    ERROR: Validate failed: Migration checksum mismatch for migration 3
-    -> Applied to database : 812327141
-    -> Resolved locally    : 769275282
+Database: jdbc:mysql://localhost:3306/commerce_prod (MySQL 10.0)
+ERROR: Validate failed: Migration checksum mismatch for migration 3
+-> Applied to database : 812327141
+-> Resolved locally    : 769275282
+```
 
 마이그레션이을 하고 나서는 아무래도 변경 상태를 확인하기가 어려운데 다음 번 마이그레이션 하기 전에 validate로 반드시 확인을 하고 실행하는 편이 좋을듯 합니다.
 

@@ -30,7 +30,7 @@ OAuth 2.0에서 프로바이더의 역할은 인가 서비스(Authorization Serv
 
 - OAuth2AuthenticationProcessingFilter는 인증된 액세스 토큰을 받는 요청에서 인증을 불러올 때 사용한다.
 
-모든 OAuth 2.0 프로바이더 기능에 대한 구성은 특별한 Spring OAuth @Configuration 어뎁터를 사용해 간소화했다. OAuth 구성을 위한 XML 네임스페이스 또한 제공하며, 스키마는 http://www.springframework.org/schema/security/spring-security-oauth2.xsd 이다. 네임스페이스는 http://www.springframework.org/schema/security/oauth2 이다.
+모든 OAuth 2.0 프로바이더 기능에 대한 구성은 특별한 Spring OAuth @Configuration 어뎁터를 사용해 간소화했다. OAuth 구성을 위한 XML 네임스페이스 또한 제공하며, 스키마는 [http://www.springframework.org/schema/security/spring-security-oauth2.xsd](http://www.springframework.org/schema/security/spring-security-oauth2.xsd)이다. 네임스페이스는 [http://www.springframework.org/schema/security/oauth2](http://www.springframework.org/schema/security/oauth2)이다.
 
 # 인가 서버 구성
 
@@ -232,7 +232,7 @@ XML에서는 id 속성이 달린 <client/> 요소를 쓴다. 여기서 id는 @Co
 
 일반적인 규칙에 따르자면 웹 애플리케이션은 password 허가를 사용하지 않아야 한다. 그렇기 때문에 AuthorizationCodeResourceDetails를 지원할 수 있다면 ResourceOwnerPasswordResourceDetails 사용을 피하도록 하자. 어쩔수 없이 자바 클라이언트에서 동작하는 password 허가가 필요한 경우에는 OAuth2RestTemplate 구성은 동일한 방식으로 사용하고 ResourceOwnerPasswordResourceDetails(모든 액세스 토큰 사이에 공유하는 방식)이 아니라 AccessTokenRequest(Map을 상속하고 주기가 짧음)을 증명서로 추가하면 된다.
 
-#= 클라이언트에서 토큰 영속화 하기
+## 클라이언트에서 토큰 영속화 하기
 
 클라이언트는 토큰 영속화를 필요로 하지 않지만 클라이언트 앱을 재시작할때마다 매번 새로운 토큰 허가를 승인받지 않도록 만들어 사용자를 편하게 해줄 수도 있다. ClientTokenServices 인터페이스는 특정 사용자의 OAuth 2.0 토큰을 영속화할 때 필요한 동작을 정의한다. JDBC 구현체를 제공하지만 영속화 데이터베이스에 액세스 토큰과 연관된 인증 인스턴스를 저장하는 서비스를 직접 구현하는 걸 선호한다면 그렇게 할 수도 있다. 이 기능을 사용하려면 OAuth2RestTemplate에 특별히 TokenProvider를 설정해줘야 한다. 예를 들면 아래와 같다.
 

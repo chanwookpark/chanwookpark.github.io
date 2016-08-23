@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "마이크로서비스 아키텍처 by Chris Richardson"
+title:  "마이크로서비스 아키텍처 (크리스 리차드슨)"
 date:   2016-02-11 13:00:00 +0000
 categories: 마이크로서비스아키텍처 번역 Chris
 ---

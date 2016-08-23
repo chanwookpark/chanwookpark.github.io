@@ -50,18 +50,22 @@ JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드�
 항상 만들어야 하는 getter/setter와 생성자는 Lombok을 사용하고 코드를 작성하지말자.
 기본 포맷은 다음처럼 (필요 시 더 추가..)
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
+```java
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+```
 
 Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 개발할 때는 인텔리j와 이클립스 플러그인 설치해 사용해야 한다.
 
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${version.lombok}</version>
-    </dependency>
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>${version.lombok}</version>
+</dependency>
+```
 
 # 엔티티 매핑
 
@@ -73,9 +77,11 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
 
 DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사용한다.
 
-    @Id
-    @GeneratedValue
-    private long id;
+```java
+@Id
+@GeneratedValue
+private long id;
+```
 
 시퀀스(특히, 오라클)를 사용할 때는 [@SequenceGenerator](http://docs.oracle.com/javaee/6/api/javax/persistence/SequenceGenerator.html) 와 함께 사용. @SequenceGenerator 는 시퀀스에 대한 상세한 속성을 설정한다. 특별히 테스트 목적이 아니면 반드시 선언해서 사용하자. @SequenceGenerator 를 선언하지 않으면 모든 ID 값이 "hibernate_sequence"라는 이름의 1개 Generator를 사용한다.
 
@@ -90,9 +96,11 @@ DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사�
 
 enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑한다.
 
-    @Column(nullable = false, length = 1)
-    @Enumerated(EnumType.STRING)
-    private ProductType productType = ProductType.P;
+```java
+@Column(nullable = false, length = 1)
+@Enumerated(EnumType.STRING)
+private ProductType productType = ProductType.P;
+```
 
 기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다.
 
@@ -112,38 +120,44 @@ enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑�
 
 DB 외래키가 생성되는 건 N:1 연관을 선언한 엔티티가 된다.
 
-    @Entity
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public class Product {
+```java
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+public class Product {
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "DISPLAY_CATEGORY_ID")
-        private Category displayCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DISPLAY_CATEGORY_ID")
+    private Category displayCategory;
 
-    }    
+}    
+```
 
 Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryId)의 이름으로 컬럼이 생성되고 외래키로 지정된다.
 
 반대로 카테고리에 매핑된 상품 목록을 표현하기 위해서는 카테고리에 상품 컬렉션을 1:N으로 연결한다.
 
-    @Entity
-    @Getter
-    @Setter
-    public class Category {
-        @OneToMany(mappedBy = "displayCategory")
-        private List<Product> productList = new ArrayList<>();
-    }
+```java
+@Entity
+@Getter
+@Setter
+public class Category {
+    @OneToMany(mappedBy = "displayCategory")
+    private List<Product> productList = new ArrayList<>();
+}
+```
 
 이렇게 양방향 관계로 사용할 때는 양쪽 참조가 누락되지 않도록 지정해야 한다는 점이다. 이럴 때는 보통 Product나 Category 중 한 쪽에 편의함수를 만들어 사용한다.
 
-    public class Category {
-        public void addProduct(Product product) {
-            this.productList.add(product);
-            product.setDisplayCategory(this);
-        }
+```java
+public class Category {
+    public void addProduct(Product product) {
+        this.productList.add(product);
+        product.setDisplayCategory(this);
     }
+}
+```
 
 이러한 양방향 관계일 때는 외래키가 생성되는 테이블에 매핑된 엔티티에서 연관 관계 처리의 책임을 저야 한다.
 위 예로 들면 Product 엔티티를 통해서 Category와의 연관 관계에 대한 처리를 해야 한다는 뜻이고, Cascade 처리 또한 Product -> Category 뱡향으로 처리하는 것이 좋다.  
@@ -156,47 +170,51 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
 
 일 대 일 @OneToOne 을 사용해 매핑한다. 일대일 관계에서는 양쪽 테이블에 외래키가 생성된다. 그러므로 양쪽에 관계가 누락되지 않도록 정확하게 연관 관계 설정을 해주는 것이 필요하다.
 
-    @Entity
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Member {
-        @OneToOne
-        @JoinColumn(name = "ACTVIE_CART_ID", referencedColumnName = "cartId", nullable = true)
-        private Cart cart;
-    }
+```java
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Member {
+    @OneToOne
+    @JoinColumn(name = "ACTVIE_CART_ID", referencedColumnName = "cartId", nullable = true)
+    private Cart cart;
+}
 
-    @Entity
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Cart {
-        @OneToOne
-        @JoinColumn(name = "OWNER_MEMBER_NUMBER", referencedColumnName = "memberNumber", nullable = false)
-        private Member owner;
-    }
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Cart {
+    @OneToOne
+    @JoinColumn(name = "OWNER_MEMBER_NUMBER", referencedColumnName = "memberNumber", nullable = false)
+    private Member owner;
+}
+```
 
 ## 다대다(N:N)
 
 다대다 관계는 매핑 시에 다대다로 매핑해 사용할 수도 있고, 아니면 매핑 테이블을 엔티티로 매핑해 일대다/다대일 관계로 만들어 사용할 수도 있다.
 두 엔티티간의 단순한 다대다 관계라면 아래처럼 @JoinTable 을 사용해 매핑하면 된다.
 
-    @Entity
-    public class Sku {
-        @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "SKU_PRD_ATTR_VALUE",
-                joinColumns = {@JoinColumn(name = "skuId")},
-                inverseJoinColumns = {@JoinColumn(name = "valueId")})
-        private List<ProductOptionValue> optionValueList = new ArrayList<>();
-    }
+```java
+@Entity
+public class Sku {
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "SKU_PRD_ATTR_VALUE",
+            joinColumns = {@JoinColumn(name = "skuId")},
+            inverseJoinColumns = {@JoinColumn(name = "valueId")})
+    private List<ProductOptionValue> optionValueList = new ArrayList<>();
+}
 
-    @Entity
-    public class ProductOptionValue {
-        @ManyToMany(mappedBy = "optionValueList")
-        private List<Sku> skuList = new ArrayList<>();
-    }
+@Entity
+public class ProductOptionValue {
+    @ManyToMany(mappedBy = "optionValueList")
+    private List<Sku> skuList = new ArrayList<>();
+}
+```
 
 하지만 연관 테이블이 단순히 연관 엔티티의 ID로만 매핑 된 것이 아니라 별도의 속성이 필요하다면 이를 역시나 엔티티로 매핑해 사용해야 한다.
 엔티티 매핑은 앞서 설명한 일대다/다대일 매핑과 동일하다. 단, 다대다 매핑 테이블의 엔티티의 ID를 연관 엔티티의 ID를 그대로 사용하고 싶은 경우에는 @IdClass 를 사용해야 한다.
@@ -243,22 +261,24 @@ http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#core.e
 
 Q로 시작하는 쿼리 클래스를 사용해서 쿼리문을 생성해서 리파지토리에 전달한다.
 
-    final QMember member = QMember.member;
+```java
+final QMember member = QMember.member;
 
-    // =
-    final BooleanExpression eq = member.memberName.eq("아이언맨");
-    List<Member> list = (List<Member>) mr.findAll(eq);
+// =
+final BooleanExpression eq = member.memberName.eq("아이언맨");
+List<Member> list = (List<Member>) mr.findAll(eq);
 
-    // like
-    final BooleanExpression like = member.memberNumber.like("1%");
-    list = (List<Member>) mr.findAll(like);
+// like
+final BooleanExpression like = member.memberNumber.like("1%");
+list = (List<Member>) mr.findAll(like);
 
-    // and
-    final BooleanExpression and = member.memberType.eq(MemberType.P)
-            .and(member.memberStatus.eq(MemberStatus.A));
-    list = (List<Member>) mr.findAll(and);
+// and
+final BooleanExpression and = member.memberType.eq(MemberType.P)
+        .and(member.memberStatus.eq(MemberStatus.A));
+list = (List<Member>) mr.findAll(and);
+```
 
-TODO 쿼리문을 만드는 로직의 위치에 대한 고민 : 서비스냐 도메인이냐
+> TODO 쿼리문을 만드는 로직의 위치에 대한 고민 : 서비스냐 도메인이냐
 
 ## JPQL
 
@@ -266,14 +286,16 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 
 아래는 예제코드다.
 
-    public interface SkuJpaRepository extends JpaRepository<Sku, Long> {
+```java
+public interface SkuJpaRepository extends JpaRepository<Sku, Long> {
 
-        @Query("SELECT s FROM commerce.entity.Sku s WHERE s.product.productId = ?1 and s.stock > 0")
-        List<Sku> findByStockedProduct(String productId);
+    @Query("SELECT s FROM commerce.entity.Sku s WHERE s.product.productId = ?1 and s.stock > 0")
+    List<Sku> findByStockedProduct(String productId);
 
-        @Query("SELECT s FROM commerce.entity.Sku s WHERE s.displayName like ?1%")
-        List<Sku> findByDisplayNameLike(String displayName);
-    }
+    @Query("SELECT s FROM commerce.entity.Sku s WHERE s.displayName like ?1%")
+    List<Sku> findByDisplayNameLike(String displayName);
+}
+```
 
 ## Native SQL
 
@@ -286,6 +308,7 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 
 일단 설정에 spring Boot의 JPA 모듈과 사용하는 DB에 맞는 JDBC를 POM에 추가해야 한다.
 
+```xml
 <!-- 기타 Spring boot 설정도 필요 -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -298,6 +321,7 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
     <artifactId>h2</artifactId>
     <scope>runtime</scope>
 </dependency>
+```
 
 데이터소스가 1개라면 EntityManagerFactory 등을 위한 설정은 필요 없다.
 
@@ -306,12 +330,14 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 별도로 리파지토리 관련 설정을 하지 않으면 스프링 부트의 APP 메인 클래스부터 엔티티 검색을 한다.
 리파지토리 및 엔티티 검색 관련 설정을 하고 싶다면 아래처럼 하도록하자.
 
-    @Configuration
-    @EnableJpaRepositories(basePackages = "applestore",
-            includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.jpasample..\*JpaRepository"))
-    @EntityScan(basePackages = "com.jpasample.domain")
-    public class JpaConfig {
-    }
+```java
+@Configuration
+@EnableJpaRepositories(basePackages = "applestore",
+        includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.jpasample..\*JpaRepository"))
+@EntityScan(basePackages = "com.jpasample.domain")
+public class JpaConfig {
+}
+```
 
 그외 JPA 프로퍼티 설정 역시 부트 프로퍼티 파일에 기록하면 된다. 프로퍼티 명은 'spring.jpa.\*' 형식이다.
 
@@ -395,20 +421,22 @@ Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 �
 - 임베디드DB(H2 등)가 아닌 설치형 DB(오라클,마이SQL등)를 사용 지원
 - Spring+DBUnit으로 테스트 데이터 입력 지원
 
-    @RunWith(SpringRunner.class)
-    @SpringBootTest(classes = App.class)
-    @DataJpaTest
-    @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-    @TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
-        listeners = {DbUnitTestExecutionListener.class})
-    @DatabaseSetup("equals-hashcode-sample-data.xml")
-    public class EqualsAndHashcodeTest {
-        @Autowired
-        TestEntityManager em;
+```java
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestExecutionListeners(mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS,
+    listeners = {DbUnitTestExecutionListener.class})
+@DatabaseSetup("equals-hashcode-sample-data.xml")
+public class EqualsAndHashcodeTest {
+    @Autowired
+    TestEntityManager em;
 
-        @Autowired
-        XxxJpaRepository r;
-    }
+    @Autowired
+    XxxJpaRepository r;
+}
+```
 
 ## 데이터 셋업
 

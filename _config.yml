@@ -11,7 +11,7 @@ email: chanwook.god@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   박찬욱의 개인 위키입니다. (현재 공사 중...)
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://nodomain.com" # the base hostname & protocol for your site
+url: "http://chanwookpark.github.io" # the base hostname & protocol for your site
 
 twitter_username: _chanwook
 github_username:  chanwookpark
@@ -19,7 +19,6 @@ facebook_username: chanwook.park.1
 
 # Build settings
 markdown: kramdown
-
 highlighter: rouge
 safe: true
 lsi: true

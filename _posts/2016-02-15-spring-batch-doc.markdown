@@ -13,17 +13,16 @@ categories: Spring SpringBatch
 
 고맙습니다.
 
-- [스프링배치 튜토리얼 1번]({{ site.github.url }}\_asset/springbatch/spring-batch-01.pptx)
-- [스프링배치 튜토리얼 1번]({{ site.github.url }}asset/springbatch/spring-batch-01.pptx)
-- link:springbatch/spring-batch-02.pptx[스프링배치 튜토리얼 2번]
-- link:springbatch/spring-batch-03.pptx[스프링배치 튜토리얼 3번]
-- link:springbatch/spring-batch-04.pptx[스프링배치 튜토리얼 4번]
-- link:springbatch/spring-batch-05.pptx[스프링배치 튜토리얼 5번]
-- link:springbatch/spring-batch-06.pptx[스프링배치 튜토리얼 6번]
+- [스프링배치 튜토리얼 1번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-01.pptx?raw=true)
+- [스프링배치 튜토리얼 2번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-02.pptx?raw=true)
+- [스프링배치 튜토리얼 3번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-03.pptx?raw=true)
+- [스프링배치 튜토리얼 4번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-04.pptx?raw=true)
+- [스프링배치 튜토리얼 5번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-05.pptx?raw=true)
+- [스프링배치 튜토리얼 6번](https://github.com/chanwookpark/chanwookpark.github.io/blob/master/_asset/springbatch/spring-batch-06.pptx?raw=true)
 
 # 레퍼런스 번역 문서 (2008년)
 
 레퍼런스를 번역한 문서입니다. 2008년도 문서이고, 번역한 스프링 배치 버전은 2.0.M2입니다.
 현행화는 못해요 ㅠㅠ;
 
-- link:springbatch/spring-batch-reference-kr-beta-3_0-with-SpringBatch-2_0_M2.pdf[스프링배치 2.0.M2 레퍼런스 번역]
+- [스프링배치 2.0.M2 레퍼런스 번역본](https://github.com/chanwookpark/chanwookpark.github.io/raw/master/_asset/springbatch/spring-batch-reference-kr-beta-3_0-with-SpringBatch-2_0_M2.pdf)

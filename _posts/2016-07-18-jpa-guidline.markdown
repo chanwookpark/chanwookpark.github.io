@@ -50,7 +50,7 @@ JPA로 커머스 개발을 앞두고 혼자 정리해보는 나만의 가이드�
 항상 만들어야 하는 getter/setter와 생성자는 Lombok을 사용하고 코드를 작성하지말자.
 기본 포맷은 다음처럼 (필요 시 더 추가..)
 
-```java
+```Java
 @Getter
 @Setter
 @NoArgsConstructor
@@ -77,7 +77,7 @@ Lombok을 사용하려면 다음 의존성을 추가해야 한다. 로컬에서 
 
 DB에서 생성하는 값을 사용하고 싶을 때는 @GeneratedValue 를 사용한다.
 
-```java
+```Java
 @Id
 @GeneratedValue
 private long id;
@@ -96,7 +96,7 @@ private long id;
 
 enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑한다.
 
-```java
+```Java
 @Column(nullable = false, length = 1)
 @Enumerated(EnumType.STRING)
 private ProductType productType = ProductType.P;
@@ -120,7 +120,7 @@ private ProductType productType = ProductType.P;
 
 DB 외래키가 생성되는 건 N:1 연관을 선언한 엔티티가 된다.
 
-```java
+```Java
 @Entity
 @Getter
 @Setter
@@ -138,7 +138,7 @@ Product에 매핑된 테이블에는 진연카테고리의 ID(Category.categoryI
 
 반대로 카테고리에 매핑된 상품 목록을 표현하기 위해서는 카테고리에 상품 컬렉션을 1:N으로 연결한다.
 
-```java
+```Java
 @Entity
 @Getter
 @Setter
@@ -150,7 +150,7 @@ public class Category {
 
 이렇게 양방향 관계로 사용할 때는 양쪽 참조가 누락되지 않도록 지정해야 한다는 점이다. 이럴 때는 보통 Product나 Category 중 한 쪽에 편의함수를 만들어 사용한다.
 
-```java
+```Java
 public class Category {
     public void addProduct(Product product) {
         this.productList.add(product);
@@ -170,7 +170,7 @@ public class Category {
 
 일 대 일 @OneToOne 을 사용해 매핑한다. 일대일 관계에서는 양쪽 테이블에 외래키가 생성된다. 그러므로 양쪽에 관계가 누락되지 않도록 정확하게 연관 관계 설정을 해주는 것이 필요하다.
 
-```java
+```Java
 @Entity
 @Getter
 @Setter
@@ -199,7 +199,7 @@ public class Cart {
 다대다 관계는 매핑 시에 다대다로 매핑해 사용할 수도 있고, 아니면 매핑 테이블을 엔티티로 매핑해 일대다/다대일 관계로 만들어 사용할 수도 있다.
 두 엔티티간의 단순한 다대다 관계라면 아래처럼 @JoinTable 을 사용해 매핑하면 된다.
 
-```java
+```Java
 @Entity
 public class Sku {
     @ManyToMany(cascade = CascadeType.ALL)
@@ -261,7 +261,7 @@ http://docs.spring.io/spring-data/jpa/docs/1.10.2.RELEASE/reference/html/#core.e
 
 Q로 시작하는 쿼리 클래스를 사용해서 쿼리문을 생성해서 리파지토리에 전달한다.
 
-```java
+```Java
 final QMember member = QMember.member;
 
 // =
@@ -286,7 +286,7 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 
 아래는 예제코드다.
 
-```java
+```Java
 public interface SkuJpaRepository extends JpaRepository<Sku, Long> {
 
     @Query("SELECT s FROM commerce.entity.Sku s WHERE s.product.productId = ?1 and s.stock > 0")
@@ -330,7 +330,7 @@ Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터�
 별도로 리파지토리 관련 설정을 하지 않으면 스프링 부트의 APP 메인 클래스부터 엔티티 검색을 한다.
 리파지토리 및 엔티티 검색 관련 설정을 하고 싶다면 아래처럼 하도록하자.
 
-```java
+```Java
 @Configuration
 @EnableJpaRepositories(basePackages = "applestore",
         includeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.jpasample..\*JpaRepository"))
@@ -421,7 +421,7 @@ Hibernate Tools에서 제공하는 Ant 태스크를 사용해 현재 정의한 �
 - 임베디드DB(H2 등)가 아닌 설치형 DB(오라클,마이SQL등)를 사용 지원
 - Spring+DBUnit으로 테스트 데이터 입력 지원
 
-```java
+```Java
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class)
 @DataJpaTest

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "HTTP Cookie (Wikipedia 번역)"
+title:  "HTTP 쿠키 (Wikipedia 번역)"
 date:   2016-02-17 13:00:00 +0000
 categories: cookie web 번역
 ---

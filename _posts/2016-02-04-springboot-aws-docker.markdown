@@ -117,8 +117,6 @@ DockerHub에서 만든 계정의 기본 저장소를 사용하거나 저장소�
 
 EC2 인스턴스는 쉽게 AWS 콘솔 상에서 만들 수가 있습니다. 실행하고 나서는 SSH로 접속을 합니다. 방법은 AWS 콘솔에 쉽게 잘 설명이 되어 있습니다.
 
-image:images/2016-02-04_00-18-44.png[ec2-connect,title="EC2 Connect by console"]
-
 자, 이제 Docker를 설치하죠.
 [EC2에 Docker를 설치하는 방법](http://docs.aws.amazon.com/ko_kr/AmazonECS/latest/developerguide/docker-basics.html)은 이미 AWS 가이드에서 잘 설명하고 있습니다.
 

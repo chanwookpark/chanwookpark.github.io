@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "모놀리틱 아키텍처 by Chris Richardson"
-date:   22016-01-30 13:00:00 +0000
+date:   2016-01-30 13:00:00 +0000
 categories: 마이크로서비스아키텍처 모놀리틱 번역 Chris
 ---
 

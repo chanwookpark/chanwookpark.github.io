@@ -1,0 +1,16 @@
+title: TreeWiki
+baseurl: ""
+url: "http://chanwookpark.github.io"
+
+date_format: "%Y-%m-%d"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+safe: true
+
+# Third-party services
+# just leave someone empty to disable it
+google_analytics:
+disqus_shortname:

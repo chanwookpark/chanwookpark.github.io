@@ -13,7 +13,7 @@ categories: Spring SpringBatch
 
 고맙습니다.
 
-- {{ site.baseurl }}/\_asset/springbatch/spring-batch-01.pptx[스프링배치 튜토리얼 1번]
+- [스프링배치 튜토리얼 1번]({{ site.baseurl }}/\_asset/springbatch/spring-batch-01.pptx)
 - link:springbatch/spring-batch-02.pptx[스프링배치 튜토리얼 2번]
 - link:springbatch/spring-batch-03.pptx[스프링배치 튜토리얼 3번]
 - link:springbatch/spring-batch-04.pptx[스프링배치 튜토리얼 4번]

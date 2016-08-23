@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Flyway 공부"
-date:   2016-08-11 13:00:00 +0000
-categories: migration
+date:   2016-08-23 13:00:00 +0000
+categories: DBMigration Flyway
 ---
 
 얼마전 프로젝트에서 Flyway를 적용해볼까 하는 마음에 공부를 했던 내용을 간단히 기록해둡니다.

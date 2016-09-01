@@ -2,7 +2,7 @@
 layout: post
 title:  "마이크로서비스 아키텍처 (크리스 리차드슨)"
 date:   2016-02-11 13:00:00 +0000
-categories: 마이크로서비스아키텍처 번역 Chris
+categories: microservice 번역 Chris
 ---
 
 > This a translation of an article [Microservices Architecture](http://microservices.io/patterns/microservices.html) originally written and copyrighted by [Chris Richardson](http://twitter.com/crichardson).      

@@ -104,6 +104,50 @@ private ProductType productType = ProductType.P;
 
 기본은 숫자타입(EnumType.ORDINAL)으로 매핑된다.
 
+## Index 매핑
+
+[@Index](http://docs.oracle.com/javaee/7/api/javax/persistence/Index.html)로 매핑 가능 (자동 생성도 지원). columnList는 ','로 구분해 적는다. (배열 아님 주의)
+
+```java
+@Entity
+@Table(indexes = {@Index(name = "INDEX_PRD_NAME", columnList = "productName")})
+public class Product {
+    private String productName;
+}
+```
+
+## 시간 및 날짜 매핑 (Date)
+
+JDK8 이전에는 @Temporal를 함께 병행해서 사용.
+
+JDK8부터는 @Temporal을 사용하지 않는다. 사용하면 에러
+
+Caused by: org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: commerce.app.entity.Category.closeDate
+	...
+
+JDK8의 LocalDateTime을 매핑해 돌려보면 DDL 생성된 코드를 보면 'TINYBLOB'로 생성됨. (mariadb)    
+
+[이를 timesmap로 매핑하는 코드](http://www.thoughts-on-java.org/persist-localdate-localdatetime-jpa/) 추가.
+
+```java
+@Converter(autoApply = true)
+public class LocalDateTimeToTimestampAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
+
+    @Override
+    public Timestamp convertToDatabaseColumn(LocalDateTime locDateTime) {
+        return (locDateTime == null ? null : Timestamp.valueOf(locDateTime));
+    }
+
+    @Override
+    public LocalDateTime convertToEntityAttribute(Timestamp sqlTimestamp) {
+        return (sqlTimestamp == null ? null : sqlTimestamp.toLocalDateTime());
+    }
+
+}
+```
+
+위와 같이 매핑하면 mariadb 기준으로는 DATETIME 타입으로 매핑됨. 
+
 # 연관 관계 매핑
 
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.
@@ -162,7 +206,7 @@ public class Category {
 이러한 양방향 관계일 때는 외래키가 생성되는 테이블에 매핑된 엔티티에서 연관 관계 처리의 책임을 저야 한다.
 위 예로 들면 Product 엔티티를 통해서 Category와의 연관 관계에 대한 처리를 해야 한다는 뜻이고, Cascade 처리 또한 Product -> Category 뱡향으로 처리하는 것이 좋다.  
 
-> TODO 오너쉽을 갖는 측의 입자에서 처리하라는 설명 추가
+> TODO 오너쉽을 갖는 측의 입장에서 처리하라는 설명 추가
 
 참고로 일대다(1:N) 단방향 매핑은 가능하면 사용하지 않돋록 한다. (엔티티와 DB 매핑이 복잡해지기 때문)
 
@@ -284,7 +328,6 @@ list = (List<Member>) mr.findAll(and);
 
 Spring Data Jpa에서 제공하는 @Query 를 사용해 리파지토리 인터페이스에 JPQL을 정의해 사용한다.
 
-아래는 예제코드다.
 
 ```Java
 public interface SkuJpaRepository extends JpaRepository<Sku, Long> {
@@ -374,9 +417,20 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 
 참조 : https://github.com/spring-projects/spring-boot/issues/2763
 
-# 개발 및 운영관련 고민
+## 개발 모델과 설계
+
+고려사항
+1. 엔티티를 화면단까지 직접 노출할것인가 아닌가?
+1. 엔티티와 Repository, Aggregate 정의
+1. 패키지 구성
+
+> TODO DDD, 최범균님 책 보고 한 번 더 뽑아보자
+
+# 개발 절차와 운영 관련 고민
 
 ## 개발 DB와 운영 DB에서 엔티티 매핑 변경에 따른 스키마 반영은 어떻게 해야할까?
+
+### 고민할 때 적은 내용
 
 혼자 사용하는 로컬DB라면 JPA의 스키마를 계속 재생성하겠지만 여러 개발자가 함께 사용하는 개발DB나 운영DB에서는 그럴수가 없다.
 
@@ -390,13 +444,22 @@ hibernate.physical_naming_strategy와 hibernate.implicit_naming_strategy란 이�
 
 환경 별 DB에 반영하는 작업을 사람이 손으로 하냐 어떤 자동화된 프로세스를 따르냐는 별개 문제.
 
-> TODO 위 내용 정리하기
+### 프로젝트를 앞두고 지금 생각
 
-...
+1. 하이버네이트가 생성해주는 스키마를 기본으로 사용해 SQL 파일을 생성
+1. DB 담당자가 해당 SQL을 검토해 마이그레이션 스크립트 생성
+1. 개발 환경에서 마이그레이션 스크립트를 실행해 반영 후 검증
+1. 개발 환경에서 애플리케이션의 하이버네이트는 validate 모드로 실행
+1. 개발 환경에서 검증된 스크립트를 테스트/QA/스테이징/운영 등에 순차적으로 반영 (환경과 절차에 따라 조정)
+1. 운영 환경에서 애플리케이션의 하이버네이트는 validate 모드로 실행
 
 ## hibernate.hbm2ddl.auto에 대한 고찰
 
-> TODO update에 대해 확인해보기
+하이버네이트의 update 소스코드(SchemaUpdate 클래스 등)를 확인해 봤으나 구체적으로 update로 반영되는 부분과 그렇지 않은 부분의 기준을 찾아내기는 어려웠다.
+
+현재까지 경험한 바로는 필드의 길이 등 필드 수준의 변경 사항은 제대로 반영이 안되는 걸로 파악됨.
+
+> TODO 확인되는 대로 계속 반영하자
 
 ## Hibernate Tools를 사용해 DDL/DML 추출하기
 

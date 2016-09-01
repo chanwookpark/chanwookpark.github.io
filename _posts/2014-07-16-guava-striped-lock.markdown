@@ -15,6 +15,7 @@ categories: concurrency lock guava
 # 그래서??
 
 목적
+
 > Assuming each one is distinct, we use a “striped” approach where access to each URL is limited to N threads at a time, increasing the throughput and responsiveness of the application. (원문: 참조3)
 
 Guava에서 제공하는 Striped Lock 지원 클래스 사용..

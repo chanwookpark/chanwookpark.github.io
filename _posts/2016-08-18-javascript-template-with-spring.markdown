@@ -154,11 +154,11 @@ JSP를 사용해 서버 코드와 섞어 버리고 나서 프론트 개발자(HT
         <meta charset="utf-8"/>
         <title>React Sample</title>
         <link rel="stylesheet" href="{{staticHost}}/css/sample.css"/>
-        <script src="https://npmcdn.com/react@15.3.0/dist/react.js"></script>
-        <script src="https://npmcdn.com/react-dom@15.3.0/dist/react-dom.js"></script>
-        <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
-        <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
-        <script src="https://npmcdn.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
+        <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+        <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
+        <script src="https://unpkg.com/remarkable@1.6.2/dist/remarkable.min.js"></script>
     </head>
     <body>
     <h1>React Test!</h1>

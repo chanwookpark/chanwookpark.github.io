@@ -129,7 +129,7 @@ JDK8의 LocalDateTime을 매핑해 돌려보면 DDL 생성된 코드를 보면 '
 
 [이를 timesmap로 매핑하는 코드](http://www.thoughts-on-java.org/persist-localdate-localdatetime-jpa/) 추가.
 
-```java
+```java 
 @Converter(autoApply = true)
 public class LocalDateTimeToTimestampAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 
@@ -146,7 +146,7 @@ public class LocalDateTimeToTimestampAttributeConverter implements AttributeConv
 }
 ```
 
-위와 같이 매핑하면 mariadb 기준으로는 DATETIME 타입으로 매핑됨. 
+위와 같이 매핑하면 mariadb 기준으로는 DATETIME 타입으로 매핑됨.
 
 # 연관 관계 매핑
 

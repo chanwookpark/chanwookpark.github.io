@@ -10,3 +10,7 @@ highlighter: rouge
 permalink: pretty
 safe: true
 lsi: true
+
+kramdown:
+  input: GFM
+  hard_wrap: false

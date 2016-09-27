@@ -452,8 +452,8 @@ public class TurbineApp extends SpringBootServletInitializer {
 
 # 10. 참조 및 기타
 
-1. Hystrix :: https://github.com/Netflix/Hystrix
-1. Turbine :: https://github.com/Netflix/Turbine
-1. Spring Cloud Samples :: https://github.com/spring-cloud-samples
+1. [Hystrix](https://github.com/Netflix/Hystrix)
+1. [Turbine](https://github.com/Netflix/Turbine)
+1. [Spring Cloud Samples](https://github.com/spring-cloud-samples)
 1. 간헐적으로 'Failed to output metrics as JSON java.lang.IllegalStateException: Queue full'가 발생합니다. 원인은 아직 모릅니다. 큰 문제는 일어나지 않지만요...
 1. WAS를 톰캣 매니저로 재가동할 때 Hystrix 메모리 릭 경고가 떨어집니다. Hystrix는 ThreadLocal을 많이 사용하는데 주의 깊게 볼 필요가 있습니다. 셧다운을 제대로 할 때는 문제가 없습니다.

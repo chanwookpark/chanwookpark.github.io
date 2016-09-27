@@ -438,7 +438,7 @@ public class TurbineApp extends SpringBootServletInitializer {
 
 예를 들어, app-prod를 보려면 'http://{turbine-host}:{port}/turbine.stream=?cluster=app-prod'를 입력하면 됩니다.
 
-![turbine으로 대시보드 접속하기](../images/hystrix/hystrix-dashboard-main.png)
+![turbine으로 대시보드 접속하기](./images/hystrix/hystrix-dashboard-main.png)
 
 # 9. 마무리하기
 

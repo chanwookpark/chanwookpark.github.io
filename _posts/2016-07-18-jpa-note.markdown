@@ -384,7 +384,7 @@ public class JpaConfig {
 
 그외 JPA 프로퍼티 설정 역시 부트 프로퍼티 파일에 기록하면 된다. 프로퍼티 명은 'spring.jpa.\*' 형식이다.
 
-![스프링 부트에서 정의한 JPA 속성](/jpa-note/spirng-jpa-properties.png)
+![스프링 부트에서 정의한 JPA 속성](/images/jpa-note/spirng-jpa-properties.png)
 
 ## Config 클래스 만들기
 

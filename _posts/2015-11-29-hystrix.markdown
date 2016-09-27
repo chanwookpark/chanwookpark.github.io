@@ -184,7 +184,7 @@ Key 외에도 다양한 Command와 ThreadPool 속성을 설정할 수 있습니�
 프로퍼티 설정은 Key와 함께 Command 클래스의 생성자에 적습니다. 코드가 좀 길어서 보기 어려운 게 단점이라면 단점이죠;
 
 ```java
-public class SAPHystrixCommand extends HystrixCommand&amp;amp;lt;Object&amp;amp;gt; {
+public class SAPHystrixCommand extends HystrixCommand<Object> {
     public SapHystrixCommand(SomeParam param) {
         super(
             ...

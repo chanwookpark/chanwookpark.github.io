@@ -129,7 +129,7 @@ JDK8의 LocalDateTime을 매핑해 돌려보면 DDL 생성된 코드를 보면 '
 
 [이를 timesmap로 매핑하는 코드](http://www.thoughts-on-java.org/persist-localdate-localdatetime-jpa/) 추가.
 
-```java 
+```java
 @Converter(autoApply = true)
 public class LocalDateTimeToTimestampAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 
@@ -384,7 +384,7 @@ public class JpaConfig {
 
 그외 JPA 프로퍼티 설정 역시 부트 프로퍼티 파일에 기록하면 된다. 프로퍼티 명은 'spring.jpa.\*' 형식이다.
 
-![스프링 부트에서 정의한 JPA 속성](/jpa-guideline/spirng-jpa-properties.png)
+![스프링 부트에서 정의한 JPA 속성](/jpa-note/spirng-jpa-properties.png)
 
 ## Config 클래스 만들기
 

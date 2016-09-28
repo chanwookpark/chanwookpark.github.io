@@ -31,6 +31,7 @@ categories: Gatling PerformanceTest Tool
 ![개틀링 폴더 구조](/images/gatling/gatling-folder.png)
 
 각 폴더 별로 보면,
+
 - /bin 에는 스크립트를 생성(녹화)하는 recorder.sh와 스크립트를 실행하는 gatling.sh 파일이 있고 (두 개 실행 파일이 전부입니다),
 - /conf에는 설정 파일이,
 - /lib에는 라이브러리가,

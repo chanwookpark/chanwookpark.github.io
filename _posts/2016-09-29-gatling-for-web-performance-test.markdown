@@ -37,9 +37,9 @@ categories: Gatling PerformanceTest Tool
 - /lib에는 라이브러리가,
 - /results에는 스크립트를 실행한 결과 페이지(HTML)가,
 - 마지막으로 /user-files에는 녹화한 스크립트 파일(scala)과 데이터 파일이 들어 있습니다.
- - 테스트 데이터 파일은 data 폴더에,
- - 스크립트 파일은 simulations 폴더에 있고,
- - 각각이 클래스 패스가 잡혀 있으니 두 폴더 하위에 필요에 맞춰 파일을 넣어 사용하면 됩니다.
+    - 테스트 데이터 파일은 data 폴더에,
+    - 스크립트 파일은 simulations 폴더에 있고,
+    - 각각이 클래스 패스가 잡혀 있으니 두 폴더 하위에 필요에 맞춰 파일을 넣어 사용하면 됩니다.
 
 # 3. 녹화하기 (Recording)
 

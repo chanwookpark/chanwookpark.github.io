@@ -92,6 +92,37 @@ private long id;
 - https://github.com/spring-projects/spring-boot/commit/f3c311993a9a4f1cb5ec46bfb885d7d52e47480a
 - http://docs.jboss.org/hibernate/orm/5.0/userguide/html_single/Hibernate_User_Guide.html#identifiers-generators-auto
 
+## 복합키(composite id) 사용하기
+
+두 개 이상의 ID를 사용하고 싶은 경우에 다음 순서대로 작업한다.
+
+```java
+@Entity
+@IdClass(CatalogProductId.class)
+@Data
+public class CatalogSectionProduct {
+
+    @Id
+    private long catalogId;
+
+    @Id
+    private long productId;
+
+    // ...
+}
+
+
+@Data
+public class CatalogProductId implements Serializable {
+
+    private long catalogId;
+
+    private long productId;
+
+}
+
+```
+
 ## Enum 타입 매핑
 
 enum 문자를 DB 값으로 사용하고 싶을 때는 다음과 같이 매핑한다.
@@ -206,9 +237,22 @@ public class Category {
 이러한 양방향 관계일 때는 외래키가 생성되는 테이블에 매핑된 엔티티에서 연관 관계 처리의 책임을 저야 한다.
 위 예로 들면 Product 엔티티를 통해서 Category와의 연관 관계에 대한 처리를 해야 한다는 뜻이고, Cascade 처리 또한 Product -> Category 뱡향으로 처리하는 것이 좋다.  
 
+또한, 1의 측면(위 예에서는 Category)에서 mappedBy 매핑을 해주지 않으면 1대N 관계 처리를 위한 매핑 테이블을 생성해버리게 된다.
+정말 매핑 테이블이 필요하다면 모르겠지만 그렇지 않다면 반드시 mappedBy를 붙여주어 클래스 생성이 안 되도록 해야 한다. (주의요망!)
+
 > TODO 오너쉽을 갖는 측의 입장에서 처리하라는 설명 추가
 
 참고로 일대다(1:N) 단방향 매핑은 가능하면 사용하지 않돋록 한다. (엔티티와 DB 매핑이 복잡해지기 때문)
+
+## OneToMany에서 단방향(Uni-directional) 처리
+
+객체 관계를 사용하는 입장에서 보면 '1(Product)' 측에서 '다(ProductImage)' 측의 변수에 대한 콜렉션에 붙이지는 @OneToMany 에 @JoinColumn 을 붙여 단방향 처리가 가능하다.
+
+2.0과 2.1 스펙에 보면 @JoinColumn 설명 마지막 절에 간단히 언급된다 (예제로만..). (11.1.25절 참조)
+[위키북스](https://en.wikibooks.org/wiki/Java_Persistence/OneToMany#Unidirectional_OneToMany.2C_No_Inverse_ManyToOne.2C_No_Join_Table_.28JPA_2.x_ONLY.29)에도 잘 설명되어 있다.
+
+개인적인 생각으로는 객체와 DB 매핑이 연결 고리가 없고 양쪽의 접근 방향성이 정반대이기 때문에 사용하지 않는 것이 좋겠다 생각한다. 
+
 
 ## 일대일(1:1)
 

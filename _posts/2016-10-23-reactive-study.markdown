@@ -7,7 +7,6 @@ categories: reactive spring rx
 
 reactive 학습을 하고자 기록을 남기기 시작.
 
-
 # 공식 링크
 
 - [RxJava](https://github.com/ReactiveX/RxJava)
@@ -22,17 +21,20 @@ reactive 학습을 하고자 기록을 남기기 시작.
     - [Notes on Reactive Programming Part II: Writing Some Code](https://spring.io/blog/2016/06/13/notes-on-reactive-programming-part-ii-writing-some-code)
     - [Notes on Reactive Programming Part III: A Simple HTTP Server Application](https://spring.io/blog/2016/07/20/notes-on-reactive-programming-part-iii-a-simple-http-server-application)
 - [스프링 5.x 레퍼런스 중 Reactive web 챕터](http://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/#web-reactive)
-    - 아직은 내용이 많이 없다..
+    - 아직은 내용이 많이 없다.. (16.10.23 기준)
 
 # 코드
 
 - [Spring Boot Web Reactive Starter](https://github.com/bclozel/spring-boot-web-reactive)
+    - Spring Boot 2.0 작업 코드로
+    - Boot 설정과 reactive 관련 dependency를 볼수 있다
+    - 실제 동작에 대한 예제는 거의 없다 (16.10.23 기준)
 - [Reactor Hands-on lab](https://github.com/reactor/lite-rx-api-hands-on)
     - 현재까지 본 코드중에는 가장 좋은 샘플 코드
     - 테스트케이스를 단계 별로 따라할 수 있고
     - Flux, Mono 중심으로 예제가 되어 있어 기본을 이해하기에 좋다
     - [clone 받아 테스트케이스 작성은 따라해봤으나](https://github.com/chanwookpark/lite-rx-api-hands-on)
-    - 이번에는 전체 코드를 따라 작성해보면 좋을 듯  
+    - 이번에는 전체 코드를 따라 작성해보면 좋을 듯
     - [이 코드와 연결된 자료](https://speakerdeck.com/sdeleuze/a-lite-rx-api-for-the-jvm)
 - 스프링 코어 테스트 케이스 중 [reactor 지원 컨트롤러 예제](https://github.com/spring-projects/spring-reactive/blob/545325dbf5d04c30aaedf25b4da1f7b97650d33f/src/test/java/org/springframework/web/reactive/method/annotation/RequestMappingIntegrationTests.java#L464)
 

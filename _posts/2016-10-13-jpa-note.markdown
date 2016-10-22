@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "JPA 노트"
-date:   2016-07-18 13:00:00 +0000
+date:   2016-10-13 13:00:00 +0000
 categories: jpa
 ---
 
@@ -149,9 +149,9 @@ public class Product {
 
 ## 시간 및 날짜 매핑 (Date)
 
-JDK8 이전에는 @Temporal를 함께 병행해서 사용.
+JDK8 이전에는 @Temporal 를 함께 병행해서 사용.
 
-JDK8부터는 @Temporal을 사용하지 않는다. 사용하면 에러
+JDK8부터는 @Temporal 을 사용하지 않는다. 사용하면 에러
 
 Caused by: org.hibernate.AnnotationException: @Temporal should only be set on a java.util.Date or java.util.Calendar property: commerce.app.entity.Category.closeDate
 	...
@@ -251,7 +251,7 @@ public class Category {
 2.0과 2.1 스펙에 보면 @JoinColumn 설명 마지막 절에 간단히 언급된다 (예제로만..). (11.1.25절 참조)
 [위키북스](https://en.wikibooks.org/wiki/Java_Persistence/OneToMany#Unidirectional_OneToMany.2C_No_Inverse_ManyToOne.2C_No_Join_Table_.28JPA_2.x_ONLY.29)에도 잘 설명되어 있다.
 
-개인적인 생각으로는 객체와 DB 매핑이 연결 고리가 없고 양쪽의 접근 방향성이 정반대이기 때문에 사용하지 않는 것이 좋겠다 생각한다. 
+개인적인 생각으로는 객체와 DB 매핑이 연결 고리가 없고 양쪽의 접근 방향성이 정반대이기 때문에 사용하지 않는 것이 좋겠다 생각한다.
 
 
 ## 일대일(1:1)

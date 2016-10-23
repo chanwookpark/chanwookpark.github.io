@@ -9,6 +9,8 @@ reactive 학습을 하고자 기록을 남기기 시작.
 
 # 공식 링크
 
+- [Reactor](https://projectreactor.io)
+    - [Reactor core](https://github.com/reactor/reactor-core/blob/master/README.md)
 - [RxJava](https://github.com/ReactiveX/RxJava)
 - [Reactive API Specification (reactive-streams-jvm)](https://github.com/reactive-streams/reactive-streams-jvm)
     - 2년전이 마지막 수정(기타 환경 파일 수정 빼고)인 걸로 보아 어느정도 정리된 내용인듯
@@ -16,7 +18,7 @@ reactive 학습을 하고자 기록을 남기기 시작.
 # 스프링에서 작성한 글
 
 - [Spring 5.0.M1 발표하면서...스프링 블로그 by Rossen](https://spring.io/blog/2016/07/28/reactive-programming-with-spring-5-0-m1)
-- Dave syer의 reactive 관련 걸
+- Dave syer의 reactive 관련 글
     - [Notes on Reactive Programming Part I: The Reactive Landscape](https://spring.io/blog/2016/06/07/notes-on-reactive-programming-part-i-the-reactive-landscape)
     - [Notes on Reactive Programming Part II: Writing Some Code](https://spring.io/blog/2016/06/13/notes-on-reactive-programming-part-ii-writing-some-code)
     - [Notes on Reactive Programming Part III: A Simple HTTP Server Application](https://spring.io/blog/2016/07/20/notes-on-reactive-programming-part-iii-a-simple-http-server-application)
@@ -37,6 +39,21 @@ reactive 학습을 하고자 기록을 남기기 시작.
     - 이번에는 전체 코드를 따라 작성해보면 좋을 듯
     - [이 코드와 연결된 자료](https://speakerdeck.com/sdeleuze/a-lite-rx-api-for-the-jvm)
 - 스프링 코어 테스트 케이스 중 [reactor 지원 컨트롤러 예제](https://github.com/spring-projects/spring-reactive/blob/545325dbf5d04c30aaedf25b4da1f7b97650d33f/src/test/java/org/springframework/web/reactive/method/annotation/RequestMappingIntegrationTests.java#L464)
+- [토비의 봄 TV 시험방송 1회](https://www.youtube.com/watch?v=oR1sYfmMQrI)
+    - 중간에 Mono를 사용해 컨트롤러를 작성하면서 관련 설명을 진행함
+    - 짧지만 유익한 내용 (29분 30초 정도부터)
+
+# Flux와 Mono
+
+아직 용어에 대한 정확한 이해가 부족해 간단한 문장도 번역이 어색함.. 정확히 이해하고 다시 한 번  살펴보자.
+
+## Flux
+
+![flux-diagram-kr](/images/reactive/flux-diagram-kr.png)
+
+## Mono
+
+![mono-diagram-kr](/images/reactive/mono-diagram-kr.png)
 
 # 궁금증
 

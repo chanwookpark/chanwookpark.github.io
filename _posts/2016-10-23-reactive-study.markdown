@@ -11,7 +11,8 @@ reactive 학습을 하고자 기록을 남기기 시작.
 
 - [Reactive Manifesto](http://www.reactivemanifesto.org)
     - Publisher, Subscriber, Subscription, Processor 4개 컴포넌트에 대한 설명 이해 필요
-    - 스펙(인터페이스)과 TCK가 있어 이 코드를 보고 이해해도 좋다 
+    - 스펙(인터페이스)과 TCK가 있어 이 코드를 보고 이해해도 좋다
+    - 스펙은 상세한 케이스 별 처리에 대한 설명이 좋고, 기본적인 설명은 4개 컴포넌트(Publisher, Subscriber, Subscription, Processor)의 JavaDoc이 좋다 
 - [Reactor](https://projectreactor.io)
     - [Reactor core](https://github.com/reactor/reactor-core/blob/master/README.md)
 - [RxJava](https://github.com/ReactiveX/RxJava)

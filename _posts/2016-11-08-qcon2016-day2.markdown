@@ -1,0 +1,46 @@
+---
+layout: post
+title:  "QCon 2016 둘째 날 이야기"
+date:   2016-11-08 13:00:00 +0000
+categories: 샌프란시스코 QCon 2일차
+---
+
+두 번째 날이다. 첫 날보다 조금 더 알아들어보자는 마음가짐으로 시작.
+
+# 아침미팅(?)
+
+역시 키노트 전에 간단히 전체 대상 미팅 진행.
+
+# 키노트
+
+역시나 즐거운 분위기에서 진행.
+
+뉴가이와 올드가이 이야기
+
+옛날 기업들 무시하지마라.
+일단 퍼스트 액트 돌파해라.
+
+# 세션1. WHAT COMES AFTER MICROSERVICES? (Matt Ranney,Uber)
+
+우버에서 마이크로서비스 아키텍처 적용 경험, 그리고 그 뒤의 이야기를 공유
+
+- PDF : 아직..
+- 동영상 : 아직..
+- 함께 보면 좋은 자료
+ - 우버의 마이크로서비스 적용기 : 블라블라  
+
+굳
+
+# 세션2. MASTERING CHAOS - A NETFLIX GUIDE TO MICROSERVICES (Josh Evans, 얼마전까지 Netflix, 지금은 무직)
+
+Best
+
+# 세션3. APPLYING FAILURE TESTING RESEARCH NETFLIX (Peter Alvaro와 Kolton Andrus, Netflix)
+
+굳
+
+# 세션4. AUTONOMOUS OPERATIONS: MICROSERVICES, ML AND AI (Rob Harrop, 자기회사)
+
+망
+
+# 세션5. CREATING A COLLABORATIVE CULTURE BETWEEN DEV & OPS (Pedro Canahuati, Netflix)

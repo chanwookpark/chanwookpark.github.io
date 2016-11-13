@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "QCon 2016 셋째 날 이야기"
+date:   2016-11-09 13:00:00 +0000
+categories: 샌프란시스코 QCon 3일차
+---
+
+# 키노트. ETL is dead; long-live streams(Neha Narkhede,Confluent)
+보통은 배치 방식(정해진 시간에 돌아가는 로직?)으로 돌아가는 ETL은 죽었고, 이제 스트리밍 방식으로 처리하는 방식으로 기술 변화가 필요하다(이미 변화했다?)라는 내용의 키노트 입니다.
+
+데이터와 기술의 구성이 회사마다 다르고, 기술의 변화 속에서 문제 해결 방법이 여러 가지겠지만,
+논리적으로 이러한 변화를 스트리밍(카프카)이란 시각에서 풀어내 설명을 매우 잘해주고 있습니다.
+
+역시 링크드인에서의 실제 경험이 있어서 그런지 아주 마음에 와닿는(?!) 내용으로 차분하게 설명을 잘 해주시네요.
+더군다나 천천히 차분히 설명해줘서 그런지 이번 컨퍼런스 중에서 영어가 가장 잘 들린 세션이었습니다 +.+
+
+이번 컨퍼런스 끝나고 카프카에 대해 공부를 해봐야 겠습니다. '큐'가 아니라 '스트리밍 플랫폼'으로요^^
+
+![keynote-archi](/images/qcon2016/day3/2016-11-13_16-31-42.png)
+
+점심 시간 전에 Neha씨가 출간하는 책의 MEAP 버전을 미리 나눠주면서 싸인해주는 행사를 했는데 줄이 어찌나 길던지 제 앞에 몇 명을 남기고 책이 떨어져서 책도 못 받고 인사도 못해서 정말 아쉬웠습니다 ㅠㅠ
+
+앞선 이틀 키노트에 비해 내용적으로 정말 충실한 좋은 키노트였네요.
+특히나 '배치'라는 전통적인 방식에 익숙한 생각을 가지고 있다면(저를 포함..) 한 번쯤 꼭 보시기를 추천드립니다.
+
+# 세션1. INTUITION ENGINEERING (Casey Rosenthal, Netflix)
+보통 시스템 대시보드를 만들 때 발생하는 에러나 시스템의 상황을 정확하게 숫자로 보여주는데 집중을 합니다.
+그런데 넷플릭스에서는 마이크로서비스의 구조가 워낙 복잡하고 복합적인 상황이 일어나기 때문에 그 숫자라는 걸 통해서 시스템의 정확한 상태를 직관적(intuition)으로 이해하기 어려웠다고 하네요.
+
+그도 그럴 것이 아래처럼 수많은 API들이 돌아가면 '숫자'로만은 판단하기가 어렵겠죠..
+
+![intu-apis](/images/qcon2016/day3/2016-11-13_16-49-06.png)
+
+그래서 만든게 Vizceral이라고 합니다.
+그런데 돌아와서 확인해보니 [Vizceral](https://github.com/Netflix/vizceral)은 웹GL 컴포넌트고, 실제 이름은 [Flux](http://techblog.netflix.com/2015/10/flux-new-approach-to-system-intuition.html)라고 합니다.
+제가 잘 못알아 들었나봐요..^^;
+
+아래처럼 하나의 화면으로 Volume, Error, Latency를 동시에 직관적으로 표현하기 위해 노력했다고 합니다.
+
+{% youtube ftIsVoJNCHk %}
+
+구현은 D3+웹GL+Node.js를 사용했다고 합니다.
+
+직관적인 시스템을 만드는 엔지니어링(INTUITION ENGINEERING의 나름 해석)이라는 저에게는 새로운 생각을 갖게하는 좋은 시간이었습니다.
+
+![intu-summary](/images/qcon2016/day3/2016-11-13_17-09-07.png)
+
+# 세션2. SPEEDUP YOUR JAVA APPS WITH HARDWARE COUNTERS (Sergey Kuksenko, Oracle)
+
+아..처음으로 자바 세션을 선택해 들어갔는데 너무 어려워 포기했습니다 ㅠㅠ
+
+- [세션 소개](https://qconsf.com/sf2016/presentation/speedup-java-apps-hardware-counters)
+- [발표 슬라이드](https://qconsf.com/system/files/presentation-slides/sergey_ic-en-ooo.pdf)
+
+발표자가 설명하는 HPC라는 걸 측정하고 튜닝해서 성능을 많이 줄일 수 있구나 하는 정도..
+이상 코멘트를 하기도 힘드네요..@@
+
+# 세션3. AUTOMATING CHAOS EXPERIMENTS IN PRODUCTION (Ali Basiri, Netflix)
+이번 세션은 넷플릭스에서 테스트를 어디까지 하는지 엿볼수 있는 세션이었습니다.
+
+- [세션 소개](https://qconsf.com/sf2016/presentation/automating-chaos-experiments-production)
+- [발표 슬라이드](https://qconsf.com/system/files/presentation-slides/alibasiri_qcon_sf2016.pdf)
+
+예전 넷플릭스 블로그에서 운영환경에서 일부러 문제를 일으키는 [카오스 몽키](http://techblog.netflix.com/2012/07/chaos-monkey-released-into-wild.html) 얘기를 듣고 대단하다 생각했었는데,
+지금은 두 번 버전이 올라서 카오스몽키 -> FIT -> ChaP(챕)으로 발전했다고 하네요.
+챕에서는 테스트용 가짜 리퀘스트를 만들어 테스트하는 게 아니라 실제 사용자 트래픽 중 일부를 테스트 용으로 빼내서 진짜 에러로 처리한다고 합니다..@@
+
+예를들어,
+A라는 시나리오를 1% 에러 트래픽으로 설정하면,
+서비스의 인스턴스를 AWS에서 복제한 다음 (정확히는 2가지 유형) 실제 사용자 트래픽의 2%(2개 유형이라 각각 1%씩)를 에러로 만들어 버리고 폴백처리가 잘 되는지 테스트를 한다는 겁니다. (흠..그럼 나한태도 실험한거니??!! ㅎㅎ)
+
+![chaos-chap](/images/qcon2016/day3/2016-11-13_17-31-02.png)
+
+카오스 엔지니어링의 원칙까지..
+
+![chaos-principle](/images/qcon2016/day3/2016-11-13_17-29-49.png)
+
+물론, 도메인 특성이 있기 때문이지라고 생각할 수는 있지만, 어느 도메인이든 가능한 운영환경과 가까운 환경에서 테스트 하기를 원하는데,
+그런 측면에서 이번 넷플릭스 발표는 참 생각을 많이 하게 하는 시간이었습니다.
+
+끝나고 질문이 가장 많은 세션이었는데,
+"도대체 그럼 사용자한테 불편을 주지 않냐? 이해가 안된다. 가능한가?"라는 질문에는,
+에러가 나도 사용자가 불편하지 않게 만들어야 하는게 목표고,
+이렇게 해야 주말이나 크리스마스 시즌처럼 몰릴 때 제대로 버틸 수 있다고 답변을 하더라고요..
+이런 수준의 테스트는 미국에서도 넷플릭스 외 회사들에게는 조심스럽고 가능한 일인가 하는 생각을 하는 것 같았습니다.
+
+이런 시나리오나 테스트 단위는 모두 API 단을 조합해서 한다고 하고, 지금은 싱글 API만 가능한데 80% 정도 커버가 된다고 합니다.
+API 구조로 얻을 수 있는 장점 중 하나라 생각이 듭니다..
+
+# 세션4. FREEING THE WHALE: HOW TO FAIL AT SCALE (Oliver Gould, Buoyant)
+이번 컨퍼런스의 마지막 세션입니다.
+
+- [세션 소개](https://qconsf.com/sf2016/presentation/freeing-whale-how-to-fail-scale)
+
+Buoyant에서 만들고 있는 [linkerd](https://linkerd.io)에 대한 소개가 주요한 내용이었습니다.
+linkerd는 service discovery, routing 등을 지원하는 일종의 서비스 플랫폼이라고 하네요..
+Spring Cloud나 Netflix OSS 중 API 관련 오픈소스 들의 조합과 비슷한 형태인것 같습니다.
+
+인터넷에 찾아보니 역시나 거의 유사한 발표 동영상이 이미 올라와 있네요..
+자세한 내용은 아래 동영상 한 번 보시기를 추천드립니다.
+
+{% youtube VGAFFkn5PiE %}

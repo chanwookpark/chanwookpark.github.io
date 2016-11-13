@@ -8,6 +8,8 @@ categories: 샌프란시스코 QCon 3일차
 # 키노트. ETL is dead; long-live streams(Neha Narkhede,Confluent)
 보통은 배치 방식(정해진 시간에 돌아가는 로직?)으로 돌아가는 ETL은 죽었고, 이제 스트리밍 방식으로 처리하는 방식으로 기술 변화가 필요하다(이미 변화했다?)라는 내용의 키노트 입니다.
 
+- [세션 소개](https://qconsf.com/sf2016/keynote/rise-real-time)
+
 데이터와 기술의 구성이 회사마다 다르고, 기술의 변화 속에서 문제 해결 방법이 여러 가지겠지만,
 논리적으로 이러한 변화를 스트리밍(카프카)이란 시각에서 풀어내 설명을 매우 잘해주고 있습니다.
 
@@ -24,6 +26,10 @@ categories: 샌프란시스코 QCon 3일차
 특히나 '배치'라는 전통적인 방식에 익숙한 생각을 가지고 있다면(저를 포함..) 한 번쯤 꼭 보시기를 추천드립니다.
 
 # 세션1. INTUITION ENGINEERING (Casey Rosenthal, Netflix)
+
+- [세션 소개](https://qconsf.com/sf2016/presentation/intuition-engineering)
+- [발표 슬라이드](https://qconsf.com/system/files/presentation-slides/intuition_engineering_1.pdf)
+
 보통 시스템 대시보드를 만들 때 발생하는 에러나 시스템의 상황을 정확하게 숫자로 보여주는데 집중을 합니다.
 그런데 넷플릭스에서는 마이크로서비스의 구조가 워낙 복잡하고 복합적인 상황이 일어나기 때문에 그 숫자라는 걸 통해서 시스템의 정확한 상태를 직관적(intuition)으로 이해하기 어려웠다고 하네요.
 
@@ -37,13 +43,17 @@ categories: 샌프란시스코 QCon 3일차
 
 아래처럼 하나의 화면으로 Volume, Error, Latency를 동시에 직관적으로 표현하기 위해 노력했다고 합니다.
 
-<iframe width="420" height="315" src="http://www.youtube.com/embed/ftIsVoJNCHk" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/ftIsVoJNCHk" frameborder="0" allowfullscreen></iframe>
 
 구현은 D3+웹GL+Node.js를 사용했다고 합니다.
 
 직관적인 시스템을 만드는 엔지니어링(INTUITION ENGINEERING의 나름 해석)이라는 저에게는 새로운 생각을 갖게하는 좋은 시간이었습니다.
 
 ![intu-summary](/images/qcon2016/day3/2016-11-13_17-09-07.png)
+
+거의 유사한 내용으로 GOTO 2016에서 casey씨가 이미 발표한 내용이 있네요. 역시 이 동영상을 보셔도 좋을 것 같습니다^^.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Q4nniyAarbs" frameborder="0" allowfullscreen></iframe>
 
 # 세션2. SPEEDUP YOUR JAVA APPS WITH HARDWARE COUNTERS (Sergey Kuksenko, Oracle)
 
@@ -99,4 +109,4 @@ Spring Cloud나 Netflix OSS 중 API 관련 오픈소스 들의 조합과 비슷�
 인터넷에 찾아보니 역시나 거의 유사한 발표 동영상이 이미 올라와 있네요..
 자세한 내용은 아래 동영상 한 번 보시기를 추천드립니다.
 
-<iframe width="420" height="315" src="http://www.youtube.com/embed/VGAFFkn5PiE" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/VGAFFkn5PiE" frameborder="0" allowfullscreen></iframe>

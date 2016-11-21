@@ -18,11 +18,11 @@ categories: reactive netflix zuul async non-blocking
 
 Zuul 1은 서블릿 프레임워크 기반으로 만들어졌습니다. 서블릿 시스템은 블록킹과 멀티쓰레드이며, 커넥션 당 하나의 쓰레드를 사용해서 요청을 처리한다는 걸 의미합니다. I/O 운영은 I/O 실행 시에 쓰레드 풀에서 작업 쓰레드를 선택해 수행되며, 요청 쓰레드는 작업 쓰레드가 완료될 때까지 차단됩니다(blocked). 작업 쓰레드는 작업이 완료되면 요청 쓰레드에게 알려줍니다. 이러한 방식은 각 인스턴스가 100개의 동시 커넥션 처리하는 최신 멀티코어 AWS 인스턴스에서 아주 잘 동작합니다. 그러나 백엔드 대기시간이 증가하거나 디바이스가 에러 때문에 재시도를 하는 등 무언가 잘못되었을 때는 액티브 커넥션과 쓰레드의 수가 증가하게 됩니다. 이런 일이 일어나면 노드에 문제가 발생하고 쓰레드가 서버 부하를 급증시키고 클러스터를 부셔버리면서 죽음의 나선형(death spiral)에 들어갈 수 있습니다(역주:쉽게 망했다라고 이해하면 되겠습니다.. 더 좋은 번역 표현을 찾기가 어렵네요..) 이러한 위험을 상쇄하고자 넷플릭스에서는 이벤트가 발생하는 동안 블록킹 시스템을 안정적으로 유지하도록 도와주는 쓰로틀링(throttling) 메커니즘과 라이브러리(예를 들면, Hystrix)를 만들었습니다.
 
-<img style="center;" src="/images/netflix/zuul2-journey/sD7ncrJznpx4S284ScYifrA.png" alt="Multithreaded System Architecture">
+![Multithreaded System Architecture](/images/netflix/zuul2-journey/sD7ncrJznpx4S284ScYifrA.png){: .center-image }
 
 비동기 시스템은 일반적으로 CPU 당 하나의 쓰레드가 모든 요청과 응답을 다루는 것과는 다르게 운영됩니다. 요청과 응답의 생명주기는 이벤트와 콜백을 통해 제어됩니다. 각 요청마다 쓰레드가 있지는 않기 때문에 커넥션의 비용이 매우 저렴합니다. 대신 파일 서술자(file descriptor)와 리스너 추가 비용이 들어 갑니다. 블록킹 모델에서 커넥션의 비용은 쓰레드에 있고 메모리와 시스템 과부하가 큽니다. 데이터가 같은 CPU에 유지되니 CPU 수준의 캐시를 좀더 사용하며 컨텍스트 전환이 더 적기 때문에 일정 부분 효율성을 얻게 됩니다. 또한 백엔드 대기시간과 "재시도 폭풍(retry storms)"(고객과 디바이스가 문제가 발생했을 때 재시도하는 요청)의 좋지 않은 결과가 시스템에 미치는 스트레스 또한 더 작습니다. 큐에서 커넥션과 이벤트 증가가 쓰레드를 쌓는 것보다 훨씬 저렴하기 때문입니다.
 
-<img style="center;" src="/images/netflix/zuul2-journey/smX2GaYGfJuuIl9UHlh5ceA.png" alt="Asynchronous and Non-blocking System Architecture">
+![Asynchronous and Non-blocking System Architecture](/images/netflix/zuul2-journey/smX2GaYGfJuuIl9UHlh5ceA.png){: .center-image }
 
 비동기 시스템 장점이 대단하게 들리겠지만 위 혜택은 운영 비용이 발생합니다. 블록킹 시스템은 이해하고 디버깅하기 쉽고, 쓰레드는 항상 하나의 작업을 처리하기 때문에 쓰레드의 스택은 요청 또는 생성된 작업의 처리 과정에 대한 정확한 스냇샵이 됩니다. 그리고 쓰레드 덤프는 잠금에 따라 여러 쓰레드에 걸친 요청을 따라서 읽을 수 있습니다. 던져진 예외가 스택을 일으키게 됩니다. "포괄적인(catch-all)" 예외 핸들러는 명시적으로 예외를 잡지 않아도 모든 예외를 처리해 줄 수 있습니다.
 

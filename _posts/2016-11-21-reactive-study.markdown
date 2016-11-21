@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Reative 학습"
-date:   2016-10-23 01:00:00 +0000
+title:  "Reative 학습 자료"
+date:   2016-11-21 01:00:00 +0000
 categories: reactive spring rx
 ---
 
@@ -29,7 +29,7 @@ reactive 학습을 하고자 기록을 남기기 시작.
 - [스프링 5.x 레퍼런스 중 Reactive web 챕터](http://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/#web-reactive)
     - 아직은 내용이 많이 없다.. (16.10.23 기준)
 - [Reactive Web Applications with Spring 5 by Rossen Stoyanchev (Devoxx 2016)](https://www.youtube.com/watch?v=rdgJ8fOxJhc)
-    - 첫 번째 질문에서 ThreadLocal을 사용하는 SecurityContext와 같은 XxxContext를 Reactive로 처리할 때는 어떻게 해야 하냐는 질문이었는데 아직 방법을 찾는 중이라고 답변 
+    - 첫 번째 질문에서 ThreadLocal을 사용하는 SecurityContext와 같은 XxxContext를 Reactive로 처리할 때는 어떻게 해야 하냐는 질문이었는데 아직 방법을 찾는 중이라고 답변
 
 # 코드
 
@@ -48,6 +48,11 @@ reactive 학습을 하고자 기록을 남기기 시작.
 - [토비의 봄 TV 시험방송 1회](https://www.youtube.com/watch?v=oR1sYfmMQrI)
     - 중간에 Mono를 사용해 컨트롤러를 작성하면서 관련 설명을 진행함
     - 짧지만 유익한 내용 (29분 30초 정도부터)
+
+# 기타 참고 글
+- [Zuul 2 : 비동기, 논-블록킹 시스템에 대한 넷플릭스 여정 (번역)](http://chanwookpark.github.io/reactive/netflix/zuul/async/non-blocking/2016/11/21/zuul2-netflixjourney-to-asynchronous-non-blocking-systems/)
+    - 넷플릭스에서 Zuul을 Non-Blocking 아키텍처로 변화시켜 나가는 이야기
+    - 가볍게 읽어볼만하다 (번역은 힘들었지만..)
 
 # Flux와 Mono
 

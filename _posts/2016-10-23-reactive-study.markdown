@@ -12,14 +12,14 @@ reactive 학습을 하고자 기록을 남기기 시작.
 - [Reactive Manifesto](http://www.reactivemanifesto.org)
     - Publisher, Subscriber, Subscription, Processor 4개 컴포넌트에 대한 설명 이해 필요
     - 스펙(인터페이스)과 TCK가 있어 이 코드를 보고 이해해도 좋다
-    - 스펙은 상세한 케이스 별 처리에 대한 설명이 좋고, 기본적인 설명은 4개 컴포넌트(Publisher, Subscriber, Subscription, Processor)의 JavaDoc이 좋다 
+    - 스펙은 상세한 케이스 별 처리에 대한 설명이 좋고, 기본적인 설명은 4개 컴포넌트(Publisher, Subscriber, Subscription, Processor)의 JavaDoc이 좋다
 - [Reactor](https://projectreactor.io)
     - [Reactor core](https://github.com/reactor/reactor-core/blob/master/README.md)
 - [RxJava](https://github.com/ReactiveX/RxJava)
 - [Reactive API Specification (reactive-streams-jvm)](https://github.com/reactive-streams/reactive-streams-jvm)
     - 2년전이 마지막 수정(기타 환경 파일 수정 빼고)인 걸로 보아 어느정도 정리된 내용인듯
 
-# 스프링에서 작성한 글
+# 스프링 관련 글
 
 - [Spring 5.0.M1 발표하면서...스프링 블로그 by Rossen](https://spring.io/blog/2016/07/28/reactive-programming-with-spring-5-0-m1)
 - Dave syer의 reactive 관련 글
@@ -28,6 +28,8 @@ reactive 학습을 하고자 기록을 남기기 시작.
     - [Notes on Reactive Programming Part III: A Simple HTTP Server Application](https://spring.io/blog/2016/07/20/notes-on-reactive-programming-part-iii-a-simple-http-server-application)
 - [스프링 5.x 레퍼런스 중 Reactive web 챕터](http://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/htmlsingle/#web-reactive)
     - 아직은 내용이 많이 없다.. (16.10.23 기준)
+- [Reactive Web Applications with Spring 5 by Rossen Stoyanchev (Devoxx 2016)](https://www.youtube.com/watch?v=rdgJ8fOxJhc)
+    - 첫 번째 질문에서 ThreadLocal을 사용하는 SecurityContext와 같은 XxxContext를 Reactive로 처리할 때는 어떻게 해야 하냐는 질문이었는데 아직 방법을 찾는 중이라고 답변 
 
 # 코드
 

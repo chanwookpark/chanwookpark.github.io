@@ -179,6 +179,20 @@ public class LocalDateTimeToTimestampAttributeConverter implements AttributeConv
 
 위와 같이 매핑하면 mariadb 기준으로는 DATETIME 타입으로 매핑됨.
 
+**2016-12-08 수정**
+JPAConverter 기능이 추가되어 위에 설명한 클래스를 추가하지 않더라도 더 쉽게 사용할 수 있다!
+[스프링 문서](https://spring.io/blog/2015/03/26/what-s-new-in-spring-data-fowler#jsr-310-and-threeten-backport-support)를 보면 아래처럼 @EntityScan 을 사용해 등록 가능
+
+```java
+@EntityScan(
+  basePackageClasses = { Application.class, Jsr310JpaConverters.class }
+)
+@SpringBootApplication
+class Application { … }
+```
+
+이렇게 Jsr310JpaConverters를 등록하면 별도로 Converter 구현이 필요 없음.
+
 # 연관 관계 매핑
 
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.

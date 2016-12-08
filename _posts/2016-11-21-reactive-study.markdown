@@ -53,6 +53,7 @@ reactive 학습을 하고자 기록을 남기기 시작.
 - [Zuul 2 : 비동기, 논-블록킹 시스템에 대한 넷플릭스 여정 (번역)](http://chanwookpark.github.io/reactive/netflix/zuul/async/non-blocking/2016/11/21/zuul2-netflixjourney-to-asynchronous-non-blocking-systems/)
     - 넷플릭스에서 Zuul을 Non-Blocking 아키텍처로 변화시켜 나가는 이야기
     - 가볍게 읽어볼만하다 (번역은 힘들었지만..)
+- [한글로 RX를 예제와 함께 잘 설명한 글](http://gaemi.github.io/android/2015/05/20/RxJava%20with%20Android%20-%201%20-%20RxJava%20사용해보기.html)
 
 # Flux와 Mono
 
@@ -69,4 +70,5 @@ reactive 학습을 하고자 기록을 남기기 시작.
 # 궁금증
 
 - 지금 가장 큰 관심은 Spring의 View처리와 JDBC(JPA) 처리를 포함해 reactive 스타일로 개발이 가능한 것인가? (전체가 non-blocking으로..)
-- 이렇게 하면 개발 패턴은 기존과 달라지나?? 궁금
+    - 이렇게 하면 개발 패턴은 기존과 달라지나?? 궁금
+- await()가 있을 때와 없을 때의 차이점

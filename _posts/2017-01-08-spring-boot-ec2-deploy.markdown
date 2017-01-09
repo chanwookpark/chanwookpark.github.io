@@ -24,7 +24,7 @@ S3로 JAR를 패키징해 업로드하는 플러그인이 [스프링 공식 저�
 
 간단히, 정리해보면 아래 순서로 사용할 수가 있습니다.
 
-> 로컬에서 개발 -> Spring Deploy 플러그인을 사용해 패키징한 JAR를 S3에 배포 -> S3에 배포된 JAR를 EC2로 다운로드 -> jar 커맨드로 재실행
+> 로컬에서 개발 -> Spring Deploy 플러그인을 사용해 패키징한 JAR를 S3에 배포 -> S3에 배포된 JAR를 EC2로 다운로드 -> jar 커맨드로 톰캣 실행
 
 그럼 이 순서대로 간단히 설정과 동작 방법을 알아보겠습니다.
 
@@ -99,11 +99,11 @@ JAR를 S3에 직접 배포하기 위해서 스프링에서 제공하는 [AWS Mav
 </project>
 ```
 
-혼자 테스트 용으로 만들어 스냅샷만 있어도 되지만 하는 김에 둘 다 만들어 줬습니다..
+혼자 테스트 용으로 사용하니 스냅샷만 있어도 되지만 하는 김에 둘 다 만들어 줬습니다..
 
 이어서 배포할 때 사용할 AWS 계정 정보를 설정합니다.
-AWS의 IAM에서 계정을 만들고 발급한 ACCESS_ID와 SECRET_KEY를 사용합니다.
-두 개의 키를 maven의 .setting.xml 파일에 설정합니다.
+
+AWS의 IAM에서 계정을 만들고 발급한 ACCESS_ID와 SECRET_KEY를 maven의 .setting.xml 파일에 설정합니다.
 
 당연히 두 키가 노출되면 위험할테니 .setting.xml은 공개된 코드 저장소에 올리지 않아야 되겠죠.
 
@@ -172,10 +172,13 @@ AWS Policy Generator에서 principal 항목은 단순 input이라 스프링 가�
 
 # 4. S3에 배포하기
 
-이제 배포를 해보겠습니다. 메이븐 커맨드인 'clean install deploy'를 하면 배포가 진행됩니다.
-역시나 배포하면서도 이런저런 에러 메세지로 삽질을 하게 됩니다 @@.
+이제 배포를 해보겠습니다.
 
-삽질 1. 스프링 배포 플러그인이 서울과 프랑크푸르트 리전은 지원하지 않습니다. [두 리전이 암호화 처리 방식을 지원하지 않아서](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) 그렇다고 합니다. 자세한 내용은 [깃헙 이슈](https://github.com/spring-projects/aws-maven/issues/48)에 올라가 있는 내용을 확인해주세요.
+메이븐 커맨드 'clean install deploy'를 실행하면 배포가 진행됩니다.
+
+역시나 배포하면서도 이런저런 에러로 삽질을 하게 됐는데, 대표적인 삽질 두 개를 소개(?!)합니다 @@.
+
+**삽질 1. 스프링 배포 플러그인이 서울과 프랑크푸르트 리전은 지원하지 않습니다.** [두 리전이 암호화 처리 방식을 지원하지 않아서](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) 그렇다고 합니다. 자세한 내용은 [깃헙 이슈](https://github.com/spring-projects/aws-maven/issues/48)에 올라가 있는 내용을 확인해주세요.
 
 삽질 2. 배포 과정 중에 '_403 : AWS Error Code: AccessDenied, AWS Error Message: Access Denied_'를 보게 된다면 (1) 우선 ACCESS_ID/SECRET_KEY를 잘 설정했는지 확인해보시고, 그래도 똑같은 에러가 난다면 **(2)IAM에서 해당 계정이 S3 접근 권한이 있는지 확인** 해주시기 바랍니다. 두 번째 때문에 한 참을 뒤졌습니다..;
 
@@ -222,7 +225,8 @@ Caused by: com.amazonaws.AmazonServiceException: User: arn:aws:iam::077826988712
 ...
 ```
 
-이럴 때는 cloudformation을 꺼줘야 합니다. 아직은 사용할 필요가 없어서 끄면 그만이라서 끄고 패스.
+이럴 때는 cloudformation을 꺼줘야 합니다.
+cloudformation이 필요하지 않으니 applicaiton.properties에서 아래 내용을 입력해 cloudformation를 꺼버리면 됩니다.
 
 ```properties
 cloud.aws.stack.auto=false
@@ -235,4 +239,5 @@ cloud.aws.stack.auto=false
 # 마무리하며
 
 JAR가 배포되면 변경을 감지해 톰캣을 내렸다 올리는 정도의 스크립트를 작성하면 일단 공부를 위한 준비가 된 것 같습니다.
-역시나 이번에도 느꼈지만 내가 필요한 무얼하기 위해 고민하고 실천해야 배우는 것도 많고 만족감도 높내요^^
+
+나를 위한 공부와 개발만큼 재미있는 게 없내요^^. 

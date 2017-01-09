@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "AWS+Spring 공부하기"
+date:   2017-01-01 01:00:00 +0000
+categories: AWS Spring
+---
+
+# 프로젝트 생성
+
+메이븐 생성.
+
+# AWS 계정
+
+AWS 계정 생성 (Group/User 생성) -> access key ID + Secret access key 발급 -> 실행 파라미터로 지정
+
+ID/PW 지정은 여러 방법이 있으나 깃헙 커밋을 고려해 파라미터로 하는 걸로..
+
+auto-configure는 되는데 직접 하는건 왜 안되나..
+
+경고) 아직 서울 리전은 안 된다. 서울 리전으로 하면 EC2 메타데이터를 못 찾는다는 에러가 발생
+
+# 인스턴스 메타데이터 조회
+
+SpEl을 사용해 AWS 메타데이터 사용 가능.
+
+1. [AWS 기본 메타데이터](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html#instancedata-data-categories) 사용
+1. 직접 key-value로 지정한 인스턴스 메타데이터 사용
+1. Tag 사용 : 여기서 Tag는 전체 EC2 인스턴스에서 공유해 사용할 수 있는 글로벌 값으로

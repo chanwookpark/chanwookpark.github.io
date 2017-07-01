@@ -61,13 +61,6 @@ Spring Cloud를 함께 사용하면 환경 설정이 더 간결해지고, Hystri
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>hanmi-framework</groupId>
-                <artifactId>framework-parent</artifactId>
-                <version>${version.fw}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
                 <version>${version.springcloud}</version>

@@ -193,6 +193,111 @@ class Application { … }
 
 이렇게 Jsr310JpaConverters를 등록하면 별도로 Converter 구현이 필요 없음.
 
+## 자바 기본 타입 사용 시 primitive 타입을 사용할 것인가 Wrapper 타입을 사용할 것인가?
+
+아래와 같은 경우이다.
+
+```java
+public class Asset {
+    // primitive type
+    @Colum
+    private long currentAmount;
+
+    // wrapper class type
+    @Colum
+    private Long currentAmount;
+}
+```
+
+두 방식의 가장 큰 차이점은 'null' 값을 받을 수 있냐 없냐다. long은 null이 될수 없고, Long은 null을 참조할 수 있기 때문에 해당 필드가 null 값이 올수 있다면 long이 아니라 Long을 사용해야 한다.
+
+그런데 애시당초 개발 시작 시점에 long으로 컬럼을 선언해 사용했다면 null 값이 들어갈 수가 없었기 때문에 null이 올일이 없어서 문제가 안된다. 물론, DB에 직접 들어가 강제로 null 값을 넣어주면 되지만 이런 무모한 행동(?)을 하지는 않으니 현실적인 이야기가 아니고..
+
+오히려 현실적인 이야기면서 프로젝트하면서 격었던 점은 운영 중에 필드를 추가하는 경우다.
+운영 중에 'totalAmount' 컬럼을 long 타입으로 추가했다고 보자.
+
+```java
+public class Asset {
+
+    @Column
+    private long totalAmount;
+
+}
+```
+
+운영DB이니 JPA의 스키마 수정 기능을 사용하지 않고 직접 컬럼을 추가하면 테이블의 기존 row의 해당 컬럼에는 'null'로 값이 설정되게 된다. (notnull 컬럼이 아니면)
+
+그 이후 조회하면 기존 테이블 row 데이터에는 totalAmount가 null로 설정되어 있고, 엔티티의 totalAmount 타입이 long이기 때문에 다음과 같은 에러가 발생한다.
+
+```console
+org.springframework.orm.jpa.JpaSystemException: Null value was assigned to a property [class io.chanwook.jpa.entity.Asset.totalAmount] of primitive type setter of io.chanwook.jpa.entity.Asset.totalAmount; nested exception is org.hibernate.PropertyAccessException: Null value was assigned to a property [class io.chanwook.jpa.entity.Asset.totalAmount] of primitive type setter of io.chanwook.jpa.entity.Asset.totalAmount
+...
+Caused by: org.hibernate.PropertyAccessException: Null value was assigned to a property [class io.chanwook.jpa.entity.Asset.totalAmount] of primitive type setter of io.chanwook.jpa.entity.Asset.totalAmount
+...
+Caused by: java.lang.IllegalArgumentException: Can not set long field io.chanwook.jpa.entity.Asset.totalAmount to null value
+...
+```
+
+이런 경우에는
+
+1) 해당 컬럼 생성 시에 기본값(default value)를 지정하거나
+2) 엔티티 컬럼 매핑 시에 기본값을 지정하거나
+3) 엔티티 컬럼의 타입을 Long(Wrapper 클래스 타입)으로 선언한다
+
+notnull 컬럼이면 이런 문제는 발생하지 않는다.
+
+컬럼 추가 시 에러가 발생하니 단순히 long이 아니라 Long을 쓰자라기 보다는 차근히 생각해보면 운영 중에 테이블에 컬럼을 추가할 때는 당연히 기존 데이터에는 어떤 값을 가져야 하는지 생각해보는 것이 먼저이다.  
+
+## EntityLister 활용하기 (ex.전체 테이블에 공통으로 들어가는 생성일/수정일 기록하기)
+
+[JPA의 EntityListener](https://docs.jboss.org/hibernate/orm/4.0/hem/en-US/html/listeners.html)를 사용하면 엔티티 상태가 바뀌는 이벤트를 잡아서 로직을 실행할 수 있다.
+
+구현 방식은
+
+1. 이벤트 메서드를 엔티티 클래스 안에 만들거나 상위 클래스로 만들어서 사용하거나
+2. 별도 이벤트 리스너 클래스를 만들어서 @EventListener로 엔티티 클래스에 등록해주는 방법이 있다.
+
+생각을 해보면 상위 클래스로 만들어 두면 이벤트 메서드로 초기화한 필드를 사용할 수 있기 때문에 1번 방법이 적절한 상황이 더 많을 듯하다. 물론, 엔티티에 해당 필드의 직접적인 노출을 막아야 하는 경우라면 2번도 괜찮을듯하다.
+
+아래 예제어서 UpdateAuditListener는 1번으로 만든 클래스이고, CreateAuditListener는 2번 방식으로 만든 클래스다.
+
+```java
+@Entity
+//...
+@EntityListeners(CreateAuditListener.class)
+public class Order extends UpdateAuditListener {
+}
+
+@MappedSuperclass
+@Data
+public abstract class UpdateAuditListener {
+
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    @Column(name = "UPDAT_DAT")
+    protected LocalDateTime updateDateTime;
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDateTime = LocalDateTime.now();
+    }
+}
+
+public class CreateAuditListener {
+
+    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    @Column(name = "CRT_DAT")
+    protected LocalDateTime createDateTime;
+
+    @PrePersist
+    public void onPersist(Object entity) {
+        createDateTime = LocalDateTime.now();
+    }
+}
+
+```
+
+이벤트 리스닝 방식은 전체 테이블에 공통으로 들어가는 생성일/수정일을 처리할 때 사용하면 좋다. 
+
 # 연관 관계 매핑
 
 엔티티 간의 연관 관계 매핑은 DB의 외래키로 관계를 맺어주게 된다. (Fetch 타입에 따라 달라지긴 하지만) 엔티티 간의 연관 관계는 SQL JOIN을 발생시키기 때문에 주의해서 사용이 필요하다.

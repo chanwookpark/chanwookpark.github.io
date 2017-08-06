@@ -40,7 +40,7 @@ categories: Java Spring
 </project>
 ```
 
-<plugin>은 boot로 만든 애플리케이션을 jar 형태로 실행하고자 할 때 사용합니다. <plugin>을 설정하고 mvn package를 실행하면 의존성이 걸린 jar를 모두 포함하는 용량이 꽤 큰 jar가 하나 만들어 집니다. 이 jar는 의존성을 모두 포함하고 있기 때문에 java -jar 로 바로 실행이 가능합니다!
+\\<plugin\\>은 boot로 만든 애플리케이션을 jar 형태로 실행하고자 할 때 사용합니다. \\<plugin\\>을 설정하고 mvn package를 실행하면 의존성이 걸린 jar를 모두 포함하는 용량이 꽤 큰 jar가 하나 만들어 집니다. 이 jar는 의존성을 모두 포함하고 있기 때문에 java -jar 로 바로 실행이 가능합니다!
 
 반대로 이렇게 독립적으로 실행하지 않는 상황(ex. 설치형 Tomcat에 배포해 사용한다거나 등등등)이라면 굳이 설정할 필요가 없겠죠.
 

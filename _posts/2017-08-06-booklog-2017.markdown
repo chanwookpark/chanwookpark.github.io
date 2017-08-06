@@ -10,7 +10,7 @@ categories: Book
 
 # 아날로그의 반격 (2017.07)
 
-- 데이비드 색스 지음 | 박상현, 이승연 옮김
+- 데이비드 색스 지음, 박상현, 이승연 옮김
 - [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&barcode=9791160560213)
 
 서문을 읽고 내용이 마음들어 샀다.

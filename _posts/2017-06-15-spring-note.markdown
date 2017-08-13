@@ -86,7 +86,7 @@ TODO 애노테이션 추가
 
 Spring Boot가 기본적으로 생성해주는 설정과 라이브러리 중 사용하지 않을 때는 제거하면 좋을 대상이 있습니다.
 
-[spring-starter-web만 설정했을 때 기본 lib](/images/spring-note/spring-boot-base-lib-dep.png)
+![spring-starter-web만 설정했을 때 기본 lib](/images/spring-note/spring-boot-base-lib-dep.png)
 
 기본 설정일 때는 그닥 삭제할게 없다
 

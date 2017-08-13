@@ -78,6 +78,8 @@ GEM
     jekyll-seo-tag (2.0.0)
       jekyll (~> 3.1)
     jekyll-sitemap (0.10.0)
+    jekyll-toc (0.3.0)
+      nokogiri (~> 1.6)
     jekyll-watch (1.4.0)
       listen (~> 3.0, < 3.1)
     jemoji (0.6.2)
@@ -122,6 +124,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll-toc
 
 BUNDLED WITH
    1.12.5

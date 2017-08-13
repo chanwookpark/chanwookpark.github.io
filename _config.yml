@@ -11,6 +11,9 @@ permalink: pretty
 safe: true
 lsi: true
 
+gems:
+  - jekyll-toc
+
 kramdown:
   input: GFM
   hard_wrap: false
@@ -19,6 +22,3 @@ kramdown:
 plugins:
   - jekyll-sitemap
   - jekyll-feed
-
-gems:
-  - jekyll-toc

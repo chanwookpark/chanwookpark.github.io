@@ -15,3 +15,10 @@ kramdown:
   input: GFM
   hard_wrap: false
   toc_levels: 1..4
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+gems:
+  - jekyll-toc

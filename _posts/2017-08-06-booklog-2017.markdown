@@ -3,9 +3,9 @@ layout: post
 title:  "책 읽고 기록하기(2017년)"
 date:   2017-08-06 01:00:00 +0000
 categories: Book
-toc: true
 ---
 
+* TOC
 {:toc}
 
 회사를 옮기면서 소홀했던 책 읽기 습관을 다시 살리려고 한다.

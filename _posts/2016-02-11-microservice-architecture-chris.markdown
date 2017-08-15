@@ -5,6 +5,9 @@ date:   2016-02-11 13:00:00 +0000
 categories: microservice 번역 Chris
 ---
 
+* TOC
+{:toc}
+
 > This a translation of an article [Microservices Architecture](http://microservices.io/patterns/microservices.html) originally written and copyrighted by [Chris Richardson](http://twitter.com/crichardson).      
 이글은 [Chris Richardson](http://twitter.com/crichardson)가 작성하였으며, 저작권을 가지고 있는 [Microservices Architecture](http://microservices.io/patterns/microservices.html) 글의 번역본입니다.
 

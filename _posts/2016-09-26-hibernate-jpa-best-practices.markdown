@@ -5,6 +5,9 @@ date:   2016-09-26 05:00:00 +0000
 categories: JPA Hibernate 번역
 ---
 
+* TOC
+{:toc}
+
 > http://www.thoughts-on-java.org/hibernate-best-practices/ 글을 읽고 생각한 바를 기록해둡니다.
 
 # 1. 상황에 맞춰 projection 하자

@@ -5,6 +5,9 @@ date:   2016-01-26 13:00:00 +0000
 categories: Spring OAuth
 ---
 
+* TOC
+{:toc}
+
 > 이 글은 Spring 공식 사이트에서 제공하는 [OAuth2 Developers Guide](http://projects.spring.io/spring-security-oauth/docs/oauth2.html)를 번역한 글입니다. 이 글과 함께 제공하는 [샘플코드](https://github.com/spring-projects/spring-security-oauth/tree/master/samples/oauth2/tonr)를 보시면 좀더 많은 도움이 받을 수 있습니다.      
 이번 글에는 유사한 뜻으로 해석되는 용어가 상당히 많아 번역할 때도 힘들었지만 읽는 분들도 햇갈릴 수 있을 것 같습니다. [번역할 때 선택한 용어](https://github.com/chanwookpark/me/blob/master/translation/translation-map-kr%2Ben.md)는 별도로 정리해두었으니 용어가 맞는지 확인하고 싶을 때는 참고해보세요.     
 오탈자 및 논의와 의견은 언제든지 환영입니다. 감사합니다.

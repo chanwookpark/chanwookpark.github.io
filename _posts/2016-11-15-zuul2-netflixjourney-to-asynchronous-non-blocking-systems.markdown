@@ -4,6 +4,10 @@ title: "Zuul 2 : 비동기, 논-블록킹 시스템에 대한 넷플릭스 여�
 date: 2016-11-21 01:00:00 +0000
 categories: reactive netflix zuul async non-blocking
 ---
+
+* TOC
+{:toc}
+
 > 2016년 9월 21에 넷플릭스 블로그에 올라온 '[Zuul 2 : The Netflix Journey to Asynchronous, Non-Blocking Systems](http://techblog.netflix.com/2016/09/zuul-2-netflix-journey-to-asynchronous.html)'의 번역글입니다. 오탈자와 오역에 대한 지적은 메일(chanwook.god@gmail.com)로 주시면 바로바로 반영하도록 하겠습니다.
 
 > 번역 검수를 맡아준 [구글 번역기](https://translate.google.com)에 감사드립니다^^.

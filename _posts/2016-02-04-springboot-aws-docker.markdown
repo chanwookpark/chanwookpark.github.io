@@ -5,6 +5,9 @@ date:   2016-02-03 13:00:00 +0000
 categories: Spring AWS Docker 배포
 ---
 
+* TOC
+{:toc}
+
 Spring Boot로 개발한 간단한 서비스를 AWS EC2에 올리고 싶었고, 가장 간단한 방법을 찾는 중에 Docker를 사용해 올리게 됐습니다.
 이번 글은 Docker를 사용해 Spring Boot 애플리케이션을 EC2에 올리고 실행하는 방법을 설명합니다.
 

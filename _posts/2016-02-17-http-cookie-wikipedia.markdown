@@ -5,6 +5,9 @@ date:   2016-02-17 13:00:00 +0000
 categories: cookie web 번역
 ---
 
+* TOC
+{:toc}
+
 > 이 글은 [영문 위키피디아의 HTTP 쿠키](http://en.wikipedia.org/wiki/HTTP_cookie) 페이지 중 일부를 발췌해 번역한 페이지입니다.        
 공유 및 전파는 얼마든지 환영하며 그 외 내용은 [위키피디아 저작권](http://ko.wikipedia.org/wiki/위키백과:저작권)을 참고해주세요^^.
 오역 및 조언은 얼마든지 환영합니다~

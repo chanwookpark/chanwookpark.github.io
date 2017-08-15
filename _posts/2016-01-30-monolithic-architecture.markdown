@@ -5,6 +5,9 @@ date:   2016-01-30 13:00:00 +0000
 categories: 마이크로서비스아키텍처 모놀리틱 번역 Chris
 ---
 
+* TOC
+{:toc}
+
 > This a translation of an article [Monolithic Architecture](http://microservices.io/patterns/monolithic.html) originally written and copyrighted by [Chris Richardson](http://twitter.com/crichardson).        
 이글은 [Chris Richardson](http://twitter.com/crichardson)가 작성하였으며, 저작권을 가지고 있는 [Monolithic Architecture](http://microservices.io/patterns/monolithic.html) 글의 번역본입니다.
 

@@ -5,10 +5,12 @@ date:   2016-09-29 20:00:00 +0000
 categories: Gatling PerformanceTest Tool
 ---
 
+* TOC
+{:toc}
+
 프로젝트에서 성능 테스트를 해야 하는데,
 고민하던 중에 페이스북을 통해서 [Gatling](http://gatling.io/)을 소개 받았습니다.
 초면(?)이지만 이름부터가 너무 마음에 드네요.. 개틀링(Gatling)이라니.. 작명 센스가 놀랍습니다^^.
-
 
 # 1. 설치하기
 

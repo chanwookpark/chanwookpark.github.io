@@ -5,6 +5,9 @@ date:   2016-01-29 13:00:00 +0000
 categories: 마이크로서비스 번역 마틴파울러
 ---
 
+* TOC
+{:toc}
+
 > 마틴 파울러의 [Microservice Trade-Offs](http://martinfowler.com/articles/microservice-trade-offs.html)의 번역글입니다.
 > [원문의 다른 번역 글](https://wordpress.com/read/post/id/39691452/3066)도 있으니 참고해주시고, 오역과 논의를 위한 의견은 언제든지 환영입니다.
 > 감사합니다.

@@ -35,6 +35,7 @@ git add로 수정사항을 체크하고 나서 다시 수정했다면 S이면서
 
 # 커맨드
 
+₩₩₩
 git add 
 git status
 git status -s 
@@ -56,3 +57,4 @@ git log --since=2.weeks				다양한 날짜 조건 가능
 git log --author chanwook
 git log --grep xxx					커밋 메시지에서 xxx가 포함된 커밋 조회 
 git log --Sxxx						xxx가 포함된 커밋 조회 
+₩₩₩

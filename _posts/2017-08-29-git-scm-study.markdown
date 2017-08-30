@@ -33,6 +33,11 @@ git add로 수정사항을 체크하고 나서 다시 수정했다면 S이면서
 파일을 직접 삭제하면 파일은 삭제되지만 깃에서는 Unstaged 상태가 됨.
 그리고 rm을 날리면 그때 “delete 된 것으로 Staged 상태”가 된다
 
+깃에서 되돌린 것은 다시 복구할 수 없으므로 주의!
+
+저장소를 Clone 하면 자동으로 리모트 저장소를 'origin'이라는 이름으로 추가한다.
+git 
+
 # 커맨드
 
 ```
@@ -57,4 +62,12 @@ git log --since=2.weeks				다양한 날짜 조건 가능
 git log --author chanwook
 git log --grep xxx					커밋 메시지에서 xxx가 포함된 커밋 조회 
 git log --Sxxx						xxx가 포함된 커밋 조회 
+git commit --amend          이전 커밋 덮어쓰기 (메시지만 일수도 있고 파일까지 일 수도 있고..) 
+git reset HEAD Xxxx         깃 상태를 Unstaged로 변경 (파일 내용을 리셋하지 않는다) 
+git checkout -- Xxx         파일 변경 내용을 처음 체크아웃 받았을 때의 버전으로 돌린다 (정확히 얘기하며 최근 수정된 커밋 이전?) 
+git remote -v               깃 리모트 저장소 이름과 단축URL 확인
+git remote add {name} {repository url} 
+git fetch {remote name}     로컬에는 없는 파일을 가져오지만 자동으로 Merge 하지는 않음 (git pull과 다른 점..)
+git push {remote name} {branch name}
+git remote show {remote name}
 ```

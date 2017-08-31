@@ -43,7 +43,19 @@ git add로 수정사항을 체크하고 나서 다시 수정했다면 S이면서
 
 fast-forward merge : 브런치 머즈 시에 포인터를 단순히 최신 커밋으로 이동
 
-https://git-scm.com/book/ko/v2/Git-브랜치-리모트-브랜치 공부할 차례.. 
+Rebase를 하든지, Merge를 하든지 최종 결과물은 같고 커밋 히스토리만 다르다는 것이 중요.
+
+Rebase -> 브랜치의 변경사항을 순서대로 다른 브랜치에 적용하면서 합치고
+
+Merge 의 -> 두 브랜치의 최종결과만을 가지고 합친다.
+
+주의사항. 이미 공개 저장소에 Push 한 커밋을 Rebase 하지 마라!
+
+생각해보면 rebase 해버리면 브런치의 커밋을 다시 마스터에 새로운 커밋으로 보낸다는 건데, 만약 브런치의 커밋을 브런치로 푸시했었고 이걸 어떤 동료가 받았었고, 이걸 동료가 고쳤는데, 그걸 모르고 마스터에 rebase 한 코드를 pull 받아버렸다면 엉망이 되버릴테니까..!!
+
+깃 서버는 'Local, HTTP, SSH, Git' 4개 프로토콜을 사용할 수가 있다.
+HTTP 프로토콜은 1.6.6을 기준으로 그전은 멍청한 HTTP, 이후는 스마트 HTTP라고 부른다.
+
 
 # 커맨드
 
@@ -69,6 +81,9 @@ git log --since=2.weeks				다양한 날짜 조건 가능
 git log --author chanwook
 git log --grep xxx					커밋 메시지에서 xxx가 포함된 커밋 조회
 git log --Sxxx						xxx가 포함된 커밋 조회
+git log --abbrev-commit --pretty=oneline
+git reflog                  자동으로 브랜치와 HEAD가 지난 몇 달 동안에 가리켰었던 커밋을 모두 기록
+git log master..experiment  master에는 없고 experiment에만 있는 커밋 
 
 git commit --amend          이전 커밋 덮어쓰기 (메시지만 일수도 있고 파일까지 일 수도 있고..)
 git reset HEAD Xxxx         깃 상태를 Unstaged로 변경 (파일 내용을 리셋하지 않는다)
@@ -92,4 +107,6 @@ git checkout {브런치이름}              브런치로 이동
 git branch -v                       최신 커밋이랑 보여주기
 git branch --merged
 git branch --no-merged
+
+git rebase --onto master server client  'client 브런치''의 변경 사항을 master와 server에서 변경 사항을 빼고 뽑아줌 -> master에 client의 변경 사항만 커밋하고 시플 때! -> 그 이후 master로 가서 git merge client 날려줌
 ```

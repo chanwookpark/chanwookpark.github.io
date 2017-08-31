@@ -114,7 +114,7 @@ public void test() throws Exception {
 내가 원하는 만큼 간단한 방법이라 요걸 사용하기로 하고..
 마무리 하려고 했는데 리파지토리가 인터페이스라 new로 인스턴스 생성을 할수가 없다..!
 
-# 세 번째. Spring Data Repository 목킹
+# 세 번째 방법. Spring Data Repository 목킹
 
 JPA를 사용할 때 요즘 대부분 많이 사용하는 Spring Data는 인터페이스만 만들어서 사용하도록 제공해준다.
 그러다 보니 테스트에서도 new로 리파지토리를 간단히 만들어서 테스트할 수가 없다.
@@ -147,3 +147,5 @@ public void test() throws Exception {
 오늘의 테스트 코드 완성.
 
 간단하지만 동작하는 코드는 [깃헙 프로젝트](https://github.com/chanwookpark/spirng-field-injection-jpa-interface-unit-test)를 확인해볼 수 있습니다^^.
+
+끗.

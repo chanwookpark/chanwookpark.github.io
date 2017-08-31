@@ -11,7 +11,31 @@ categories: Book
 회사를 옮기면서 소홀했던 책 읽기 습관을 다시 살리려고 한다.
 더군다나 회사에서 무제한으로 책을 구매해주기 때문에 나 스스로 조금이나마 책을 읽는 기준을 만들어야겠다는 생각이 들어 기록을 남기게 되었다.
 
-# 챗봇혁명 (2017.08)
+# [끗]지적생활습관 (2017.08)
+- 도야마 시게히코 지음, 장은주 옮김
+- [책링크](http://www.hanbit.co.kr/store/books/look.php?p_code=B8000758685)
+
+//TODO 기록 남기기
+
+이 책은 부제만 보고 바로 사버렸다.
+
+> 죽는 순간까지 지적으로 살고 싶다
+
+라니..!
+
+# [끗]소프트웨어 장인(로버트 C.마틴 시리즈) (2017.08)
+- 산드로 만쿠소 지음, 권오인 옮김
+- [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&barcode=9791186659489)
+
+//TODO 기록 남기기
+
+# [읽는중]스프링 마이크로서비스 (2017.08)
+- 라제시 RV(Rajesh RV) 지음, 오명운, 박소은, 허서윤, 이완근 옮김
+- [책링크](http://www.acornpub.co.kr/book/spring-microservices)
+
+사내 스터디로 읽는 중..
+
+# [끗]챗봇혁명 (2017.08)
 
 - 킨조 신이치로 지음, 김영택 옮김
 - [책링크](http://book.daum.net/detail/book.do?bookid=KOR9791157830831)
@@ -36,14 +60,14 @@ categories: Book
 
 요건 나중에 시간을 내어 다시 한 번 간단하게 도전해보는 것으로 하고 독서는 마무리.
 
-# 스몰데이터 (2017.08)
+# [탈락]스몰데이터 (2017.08)
 
 - 마틴 린드스트롬 지음, 최원식 옮김
 - [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788997924363&orderClick=LAG&Kc=)
 
 1차 실패. 내가 기대한 내용이 아니네.. ㅠㅠ
 
-# 아날로그의 반격 (2017.07)
+# [끗]아날로그의 반격 (2017.07)
 
 - 데이비드 색스 지음, 박상현, 이승연 옮김
 - [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&barcode=9791160560213)
@@ -59,7 +83,7 @@ categories: Book
 
 어딘가 페이지에 나오는 '사람은 아날로그이니까..'라는 제목을 기억하며..
 
-# 배민다움 (2017.07)
+# [끗]배민다움 (2017.07)
 
 - 홍성태 지음
 - [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9791187289081&orderClick=LAG&Kc=)
@@ -69,7 +93,7 @@ categories: Book
 외부 브랜딩 뿐만 아니라 내부 브랜딩에 대한 내용이 많은 마음에 와닿았다.
 내가 그 중 한 명이 되서 그런걸까??
 
-# 마이크로서비스 빌딩 (2017.07)
+# [끗]마이크로서비스 빌딩 (2017.07)
 
 - 샘 뉴먼 지음, 정성권 옮김
 - [책링크](http://www.hanbit.co.kr/store/books/look.php?p_code=B8584207882)
@@ -83,17 +107,19 @@ categories: Book
 
 이 책의 가치와 활용은 MS 아키텍처로 시스템 재구축 하고 싶은 사람이나 팀, 조직이 함께 읽어 보고 토론하고 그림을 그려볼 때 사용하면 딱 좋겠다는 생각이 든다.
 
-# 사용자를 생각하게 하지 마라 (2017.07)
+# [끗]사용자를 생각하게 하지 마라 (2017.07)
 
-// 완독.
+// TODO 기록
 
 # 실용주의사고와 학습 (2017.07)
 
 // 1차 시도 실패
 
-# AWS 인 액션 (2017.07)
+# [끗]AWS 인 액션 (2017.07)
 
-# 피플웨어 (2017.06)
+// TODO 기록
+
+# [끗]피플웨어 (2017.06)
 
 - 톰 디마르코 지음, 박승범 옮김
 - [책링크](http://www.kyobobook.co.kr/product/detailViewKor.laf?barcode=9788974422493)
@@ -106,6 +132,6 @@ categories: Book
 
 긴 설명이 필요 없을듯..
 
-# 클린코드 (2017.06)
+# [끗]클린코드 (2017.06)
 
-// 완독.
+// TODO 기록

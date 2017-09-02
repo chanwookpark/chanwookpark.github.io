@@ -56,6 +56,9 @@ Merge 의 -> 두 브랜치의 최종결과만을 가지고 합친다.
 깃 서버는 'Local, HTTP, SSH, Git' 4개 프로토콜을 사용할 수가 있다.
 HTTP 프로토콜은 1.6.6을 기준으로 그전은 멍청한 HTTP, 이후는 스마트 HTTP라고 부른다.
 
+# Github 사용
+
+콘솔에서 push 푸시 사용 전 SSH 세팅 필요 : https://gist.github.com/developius/c81f021eb5c5916013dc 
 
 # 커맨드
 

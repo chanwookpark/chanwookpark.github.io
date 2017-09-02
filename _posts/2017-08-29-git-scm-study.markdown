@@ -58,7 +58,7 @@ HTTP 프로토콜은 1.6.6을 기준으로 그전은 멍청한 HTTP, 이후는 �
 
 # Github 사용
 
-콘솔에서 push 푸시 사용 전 SSH 세팅 필요 : https://gist.github.com/developius/c81f021eb5c5916013dc 
+콘솔에서 push 푸시 사용 전 SSH 세팅 필요 - [Set up GitHub push with SSH keys](https://gist.github.com/developius/c81f021eb5c5916013dc) 
 
 # 커맨드
 

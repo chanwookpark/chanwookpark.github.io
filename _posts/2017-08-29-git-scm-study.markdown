@@ -58,7 +58,7 @@ HTTP 프로토콜은 1.6.6을 기준으로 그전은 멍청한 HTTP, 이후는 �
 
 # Github 사용
 
-콘솔에서 push 푸시 사용 전 SSH 세팅 필요 - [Set up GitHub push with SSH keys](https://gist.github.com/developius/c81f021eb5c5916013dc) 
+콘솔에서 push 푸시 사용 전 SSH 세팅 필요 - [Set up GitHub push with SSH keys](https://gist.github.com/developius/c81f021eb5c5916013dc)
 
 # 커맨드
 
@@ -71,7 +71,7 @@ git diff --staged 또는 git diff —cached 	staged 상태와 비교
 git commit
 git commit -m
 git rm
-git rm --cached Xxx				xxx 파일을 깃 관리 대상으로 하면 안 되는데 실수로 넣었을 때 사용 (패턴도 사용 가능)
+git rm --cached Xxx				xxx 파일을 깃 관리 대상으로 하면 안 되는데 실수로 넣었을 때 사용. --cached란 Staged 상태인 파일을 삭제한다는 의미. 이렇게 하면 파일은 남아 있고 커밋에서만 빠진다!
 git mv Xxx Yyy						실제 파일도 이름이 같이 변경됨
 
 git log
@@ -86,10 +86,11 @@ git log --grep xxx					커밋 메시지에서 xxx가 포함된 커밋 조회
 git log --Sxxx						xxx가 포함된 커밋 조회
 git log --abbrev-commit --pretty=oneline
 git reflog                  자동으로 브랜치와 HEAD가 지난 몇 달 동안에 가리켰었던 커밋을 모두 기록
-git log master..experiment  master에는 없고 experiment에만 있는 커밋 
+git log master..experiment  master에는 없고 experiment에만 있는 커밋
 
 git commit --amend          이전 커밋 덮어쓰기 (메시지만 일수도 있고 파일까지 일 수도 있고..)
 git reset HEAD Xxxx         깃 상태를 Unstaged로 변경 (파일 내용을 리셋하지 않는다)
+git reset --soft HEAD^      최신 커밋을 다시 Staged로 변경
 git checkout -- Xxx         파일 변경 내용을 처음 체크아웃 받았을 때의 버전으로 돌린다 (정확히 얘기하며 최근 수정된 커밋 이전?)
 
 git remote -v               깃 리모트 저장소 이름과 단축URL 확인
@@ -97,6 +98,8 @@ git remote add {name} {repository url}
 git fetch {remote name}     로컬에는 없는 파일을 가져오지만 자동으로 Merge 하지는 않음 (git pull과 다른 점..)
 git push {remote name} {branch name}
 git remote show {remote name}
+
+git show --pretty="" --name-only 커밋ID    커밋ID의 파일 리스트 보여줌
 
 git tag -a {태그이름} -m "{태그설명}"   Annotated 태그 생성
 git tag -a {태그이름} {커밋체크섬}       예전 커밋으로 태그따기 가능

@@ -56,6 +56,9 @@ Merge 의 -> 두 브랜치의 최종결과만을 가지고 합친다.
 깃 서버는 'Local, HTTP, SSH, Git' 4개 프로토콜을 사용할 수가 있다.
 HTTP 프로토콜은 1.6.6을 기준으로 그전은 멍청한 HTTP, 이후는 스마트 HTTP라고 부른다.
 
+# 관련 파일
+
+ vi ~/.gitconfig 
 
 # 커맨드
 
@@ -83,7 +86,7 @@ git log --grep xxx					커밋 메시지에서 xxx가 포함된 커밋 조회
 git log --Sxxx						xxx가 포함된 커밋 조회
 git log --abbrev-commit --pretty=oneline
 git reflog                  자동으로 브랜치와 HEAD가 지난 몇 달 동안에 가리켰었던 커밋을 모두 기록
-git log master..experiment  master에는 없고 experiment에만 있는 커밋 
+git log master..experiment  master에는 없고 experiment에만 있는 커밋
 
 git commit --amend          이전 커밋 덮어쓰기 (메시지만 일수도 있고 파일까지 일 수도 있고..)
 git reset HEAD Xxxx         깃 상태를 Unstaged로 변경 (파일 내용을 리셋하지 않는다)
